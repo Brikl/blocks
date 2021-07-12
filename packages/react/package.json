@@ -1,0 +1,26 @@
+{
+  "name": "@brikl/react",
+  "version": "1.0.0",
+  "description": "JavaScript API to building storefronts with BRIKL",
+  "repository": "https://github.com/Brikl/blocks",
+  "author": "Phumrapee Limpianchop <contact@rayriffy.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --build .",
+    "dev": "tsc --watch ."
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.6.5",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "framer-motion": "^4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.14",
+    "@types/react-dom": "^17.0.9"
+  }
+}

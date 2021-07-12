@@ -1,0 +1,1 @@
+export { getSomething } from './getSomething'

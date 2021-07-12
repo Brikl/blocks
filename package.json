@@ -1,0 +1,41 @@
+{
+  "name": "blocks",
+  "version": "1.0.0",
+  "description": "Libraries for building custom storefronts with BRIKL",
+  "repository": "https://github.com/Brikl/blocks",
+  "author": "Phumrapee Limpianchop <contact@rayriffy.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,gql,graphql,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "scripts": {
+    "build:js": "yarn workspace @brikl/js build",
+    "build:react": "yarn workspace @brikl/react build",
+    "dev:js": "yarn workspace @brikl/js dev",
+    "dev:react": "yarn workspace @brikl/react dev",
+    "publish:js": "yarn workspace @brikl/js publish",
+    "publish:react": "yarn workspace @brikl/react publish"
+  },
+  "devDependencies": {
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4"
+  }
+}

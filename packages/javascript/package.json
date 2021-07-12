@@ -1,0 +1,14 @@
+{
+  "name": "@brikl/js",
+  "version": "1.0.0",
+  "description": "JavaScript API to building storefronts with BRIKL",
+  "repository": "https://github.com/Brikl/blocks",
+  "author": "Phumrapee Limpianchop <contact@rayriffy.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --build .",
+    "dev": "tsc --watch ."
+  }
+}

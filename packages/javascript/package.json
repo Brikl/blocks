@@ -1,5 +1,5 @@
 {
-  "name": "@brikl/js",
+  "name": "@brikl/storefront-js",
   "version": "1.0.0",
   "description": "JavaScript API to building storefronts with BRIKL",
   "repository": "https://github.com/Brikl/blocks",

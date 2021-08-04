@@ -1,1 +1,28 @@
-export { getSomething } from './getSomething'
+export { StorefrontContext, query } from './core'
+export { getProduct, getProducts } from './query'
+
+export { GET_PRODUCTS, GET_PRODUCT_BY_ID } from './constants'
+
+export { Amplify, Auth } from 'aws-amplify'
+
+export type {
+  ContextInitialize,
+  ProductByIdQueryVariable,
+  ProductsQueryVariable,
+  ReturnedData,
+  StorefrontQuery,
+  Product,
+  ProductConnection,
+  ProductEdge,
+  ProductAttribute,
+  ProductMedia,
+  ProductVariantOption,
+  PageInfo,
+  ProductVariant,
+  ProductVariantColor,
+  ProductVariantType,
+  MediaType,
+  LocalizedSlug,
+  HeaderField,
+  QueryOption,
+} from './types'

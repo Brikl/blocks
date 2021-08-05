@@ -39,6 +39,7 @@
     "@commitlint/config-conventional": "^12.1.4",
     "amazon-cognito-identity-js": "^5.0.6",
     "aws-amplify": "^4.2.2",
-    "isomorphic-unfetch": "^3.1.0"
+    "isomorphic-unfetch": "^3.1.0",
+    "next": "^11.0.1"
   }
 }

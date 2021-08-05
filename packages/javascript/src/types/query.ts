@@ -6,7 +6,7 @@ export interface ProductByIdQueryVariable {
 
 export interface ProductsQueryVariable {
   first: number
-  after: number
+  after: string
 }
 
 export interface ReturnedData<Data extends any> {
@@ -14,9 +14,17 @@ export interface ReturnedData<Data extends any> {
   errors: unknown[]
 }
 
+export interface ProductQueryResult {
+  product: Product
+}
+
+export interface ProductsQueryResult {
+  products: ProductConnection
+}
+
 export interface StorefrontQuery {
-  product: (id: ProductByIdQueryVariable['id']) => Promise<ReturnedData<Product>>
+  product: (id: ProductByIdQueryVariable['id']) => Promise<ReturnedData<ProductQueryResult>>
   products: (
     varaibles: ProductsQueryVariable
-  ) => Promise<ReturnedData<ProductConnection>>
+  ) => Promise<ReturnedData<ProductsQueryResult>>
 }

@@ -1,14 +1,19 @@
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 
-import { BRIKLProvider } from '@brikl/react'
+import { StorefrontProvider } from '@brikl/storefront-react'
+
+import 'tailwindcss/tailwind.css'
 
 const NextApp: NextPage<AppProps> = props => {
   const { Component, pageProps } = props
+
   return (
-    <BRIKLProvider>
+    <StorefrontProvider context={{
+      shopId: "miko-dane"
+    }}>
       <Component {...pageProps} />
-    </BRIKLProvider>
+    </StorefrontProvider>
   )
 }
 

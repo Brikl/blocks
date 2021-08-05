@@ -2,17 +2,21 @@ import { Auth } from 'aws-amplify'
 
 import type { ContextInitialize, ReturnedData, QueryOption } from './types'
 
-class Context {
-  #shopId: string = ''
-  #token: string = ''
-
-  constructor() {
-    this.#shopId = 'localhost:4200/api/storefront-mock-api'
-  }
+/**
+ * ! __SECRET_INTERNAL_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
+ *
+ * ? Must be export for declaration map generation.
+ * If not export, `@brikl/storefront-react` build with declaration map will be failed
+ */
+export class __Context {
+  // Private field by # is not implemented on Terser yet
+  private shopId: string = ''
+  private token: string = ''
+  private endpoint: string = 'http://localhost:4200/api/storefront-mock-api'
 
   // TODO: Query congnito function from Backend
   initialize({ shopId }: ContextInitialize) {
-    this.#shopId = shopId
+    this.shopId = shopId
   }
 
   async reloadToken() {
@@ -22,19 +26,20 @@ class Context {
       const session = await Auth.currentSession()
       const token = session.getIdToken().getJwtToken()
 
-      this.#token = token
+      this.token = token
     } catch (error) {}
   }
 
   get context() {
     return {
-      shopId: this.#shopId,
-      token: this.#token,
+      shopId: this.shopId,
+      token: this.token,
+      endpoint: this.endpoint,
     }
   }
 }
 
-export const StorefrontContext = new Context()
+export const StorefrontContext = new __Context()
 
 export const query = async <Result extends unknown, Variable = Object>(
   queryString: string,
@@ -42,7 +47,7 @@ export const query = async <Result extends unknown, Variable = Object>(
   shop = StorefrontContext
 ) => {
   const {
-    context: { shopId, token },
+    context: { shopId, token, endpoint },
   } = shop
 
   let headers: Record<string, any> = {
@@ -56,19 +61,16 @@ export const query = async <Result extends unknown, Variable = Object>(
       authorization: `Bearer ${token}`,
     }
 
-  const result: Promise<ReturnedData<Result>> = await fetch(
-    'http://localhost:4200/api/storefront-mock-api',
-    {
-      method: 'POST',
-      ...config?.fetcher,
-      headers,
-      body: JSON.stringify({
-        query: queryString,
-        variables: config?.variables || {},
-      }),
-      // @ts-ignore
-    }
-  ).then(res => res.json())
+  const result: Promise<ReturnedData<Result>> = await fetch(endpoint, {
+    method: 'POST',
+    credentials: 'include',
+    ...config?.fetcher,
+    headers,
+    body: JSON.stringify({
+      query: queryString,
+      variables: config?.variables || {},
+    }),
+  }).then(res => res.json())
 
   return result
 }

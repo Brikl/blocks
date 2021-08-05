@@ -5,6 +5,8 @@
     "rootDir": "src",
     "jsx": "react-jsx",
     "lib": ["esnext", "dom"],
+    "declaration": true,
+    "declarationMap": true,
     "strict": true
   },
   "include": ["src"],

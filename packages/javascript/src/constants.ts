@@ -1,7 +1,7 @@
 const trimQuery = (query: string) => query.replace(/\ /, "").replace(/\n/, " ")
 
 export const GET_PRODUCTS = trimQuery(`
-    query GET_PRODUCTS($first: Int!, $after: Int!) {
+    query GET_PRODUCTS($first: Int!, $after: String!) {
         products(first: $first, after: $after) {
             totalCount
             edges {
@@ -26,6 +26,7 @@ export const GET_PRODUCTS = trimQuery(`
                         title
                         description
                         isFeatured
+                        source
                     }
                     variants {
                         id
@@ -33,11 +34,7 @@ export const GET_PRODUCTS = trimQuery(`
                         type
                         options {
                             id
-                        }
-                        color {
-                            id
-                            title
-                            hex
+                            detail
                         }
                     }
                     createdAt
@@ -75,6 +72,7 @@ export const GET_PRODUCT_BY_ID = trimQuery(`
                 title
                 description
                 isFeatured
+                source
             }
             variants {
                 id
@@ -82,11 +80,7 @@ export const GET_PRODUCT_BY_ID = trimQuery(`
                 type
                 options {
                     id
-                }
-                color {
-                    id
-                    title
-                    hex
+                    detail
                 }
             }
             createdAt

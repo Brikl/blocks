@@ -5,6 +5,8 @@ export {
   ProductsQueryVariable,
   ReturnedData,
   StorefrontQuery,
+  ProductQueryResult,
+  ProductsQueryResult
 } from './query'
 
 export type {
@@ -16,7 +18,6 @@ export type {
     ProductVariantOption,
     PageInfo,
     ProductVariant,
-    ProductVariantColor,
     ProductVariantType,
     MediaType,
     LocalizedSlug

@@ -13,7 +13,7 @@ const main = async () => {
     'getProducts',
     await getProducts({
       first: 4,
-      after: 2,
+      after: 'something',
     })
   )
 }

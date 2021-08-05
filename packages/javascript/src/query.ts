@@ -4,14 +4,14 @@ import { GET_PRODUCTS, GET_PRODUCT_BY_ID } from './constants'
 
 import type {
   StorefrontQuery,
-  ProductConnection,
-  Product,
+  ProductQueryResult,
+  ProductsQueryResult,
   ProductsQueryVariable,
   ProductByIdQueryVariable,
 } from './types'
 
 export const getProduct: StorefrontQuery['product'] = async id => {
-  const product = await query<Product, ProductByIdQueryVariable>(
+  const product = await query<ProductQueryResult, ProductByIdQueryVariable>(
     GET_PRODUCT_BY_ID,
     {
       variables: {
@@ -27,7 +27,7 @@ export const getProducts: StorefrontQuery['products'] = async ({
   first,
   after,
 }) => {
-  const product = await query<ProductConnection, ProductsQueryVariable>(
+  const product = await query<ProductsQueryResult, ProductsQueryVariable>(
     GET_PRODUCTS,
     {
       variables: {

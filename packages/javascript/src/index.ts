@@ -1,4 +1,4 @@
-export { StorefrontContext, query } from './core'
+export { StorefrontContext, query, __Context } from './core'
 export { getProduct, getProducts } from './query'
 
 export { GET_PRODUCTS, GET_PRODUCT_BY_ID } from './constants'
@@ -19,10 +19,11 @@ export type {
   ProductVariantOption,
   PageInfo,
   ProductVariant,
-  ProductVariantColor,
   ProductVariantType,
   MediaType,
   LocalizedSlug,
   HeaderField,
   QueryOption,
+  ProductQueryResult,
+  ProductsQueryResult
 } from './types'

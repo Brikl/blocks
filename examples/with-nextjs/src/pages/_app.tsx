@@ -10,7 +10,7 @@ const NextApp: NextPage<AppProps> = props => {
 
   return (
     <StorefrontProvider context={{
-      shopId: "miko-dane"
+      shopId: "miku-dayo"
     }}>
       <Component {...pageProps} />
     </StorefrontProvider>

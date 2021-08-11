@@ -13,11 +13,13 @@ import type {
   ProductQueryResult,
   ProductVariant,
 } from '@brikl/storefront-js'
+import { useEffect } from 'react'
 
 interface ProductProps {
   product: ReturnedData<ProductQueryResult>
 }
 
+// ? Mockup variants
 const mockVariants: ProductVariant[] = [
   {
     id: 'flawke',
@@ -137,10 +139,14 @@ const ProductPage: FunctionComponent<ProductProps> = ({ product }) => {
   let {
     data: {
       product: productData,
-      product: { title, description, attributes, media },
+      product: { title, description, attributes, media, variants },
     },
   } = product
   let selectedProduct = attributes[selection]
+
+  useEffect(() => {
+    console.log(productData)
+  }, [productData])
 
   return (
     <main className="flex flex-row justify-center items-start w-full max-w-[1280px] mx-auto px-4 py-12">
@@ -149,6 +155,7 @@ const ProductPage: FunctionComponent<ProductProps> = ({ product }) => {
           {media.map(({ id, source, alt }, index) => (
             <button
               type="button"
+              key={id}
               className={`w-full ${index === selection ? '' : 'opacity-50'}`}
               onClick={() => {
                 updateSelection(index)
@@ -172,7 +179,7 @@ const ProductPage: FunctionComponent<ProductProps> = ({ product }) => {
           {description}
         </h2>
 
-        {mockVariants.map(({ id, title, options, type }) => (
+        {variants.map(({ id, title, options, type }) => (
           <section key={id} className="flex flex-col w-full my-3">
             <h5 className="text-sm text-gray-800 capitalize">{title}</h5>
             <div className="flex flex-row flex-nowrap gap-1 mt-2">
@@ -191,8 +198,12 @@ const ProductPage: FunctionComponent<ProductProps> = ({ product }) => {
         ))}
 
         <div className="flex flex-row gap-2 my-4">
-          <button className="text-lg text-white font-semibold py-2 w-full bg-black rounded-full">Add To Cart</button>
-          <button className="text-lg text-gray-600 py-2 w-full bg-gray-200 rounded-full">Add To Wishlist</button>
+          <button className="text-lg text-white font-semibold py-2 w-full bg-black rounded-full">
+            Add To Cart
+          </button>
+          <button className="text-lg text-gray-600 py-2 w-full bg-gray-200 rounded-full">
+            Add To Wishlist
+          </button>
         </div>
       </article>
     </main>
@@ -268,8 +279,8 @@ const SizeSelector = ({
     <button
       type="button"
       onClick={handleClick}
-      className={`text-xs text-black hover:text-white focus:text-white w-[36px] h-[36px] rounded-full border border-gray-300 hover:border-black focus:border-black bg-white hover:bg-black focus:bg-black transition-colors cursor-pointer ${
-        active ? 'text-white bg-black border-black' : ''
+      className={`text-xs hover:text-white focus:text-white w-[36px] h-[36px] rounded-full border border-gray-300 hover:border-black focus:border-black hover:bg-black focus:bg-black transition-colors cursor-pointer ${
+        active ? 'text-white bg-black border-black' : ' bg-white text-black'
       }`}
     >
       {detail}
@@ -285,9 +296,19 @@ const selectorMap: Record<ProductVariantType, typeof ColorSelector> = {
 
 export const getServerSideProps: GetServerSideProps<ProductProps> =
   async () => {
+    let products = await getProduct('eldridge')
+
     return {
       props: {
-        product: await getProduct('eldridge'),
+        product: {
+          ...products,
+          data: {
+            product: {
+              ...products.data.product,
+              variants: mockVariants,
+            },
+          },
+        },
       },
     }
   }

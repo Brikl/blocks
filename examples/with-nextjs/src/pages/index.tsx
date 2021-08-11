@@ -26,13 +26,14 @@ const Page: FunctionComponent<Props> = ({
       {products.edges.map(
         ({
           node: {
+            id,
             title,
             description,
             media: [{ source, alt }],
             slugs: [{ url }],
           },
         }) => (
-          <Link href={`/product/${url}`}>
+          <Link key={id} href={`/product/${url}`}>
             <article className="flex flex-col cursor-pointer">
               <img className="mb-2" src={source} alt={alt} />
               <h3 className="text-3xl font-semibold my-2">{title}</h3>

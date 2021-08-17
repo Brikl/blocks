@@ -1,6 +1,4 @@
-const trimQuery = (query: string) => query.replace(/\ /, "").replace(/\n/, " ")
-
-export const GET_PRODUCTS = trimQuery(`
+export const GET_PRODUCTS = `
     query GET_PRODUCTS($first: Int!, $after: String!) {
         products(first: $first, after: $after) {
             totalCount
@@ -48,9 +46,9 @@ export const GET_PRODUCTS = trimQuery(`
             }
         }        
     }
-`)
+`
 
-export const GET_PRODUCT_BY_ID = trimQuery(`
+export const GET_PRODUCT_BY_ID = `
     query GetProductById($id: ID!) {
         product(id: $id) {
             id
@@ -86,4 +84,4 @@ export const GET_PRODUCT_BY_ID = trimQuery(`
             createdAt
         }
     }
-`)
+`

@@ -6,6 +6,7 @@ export { GET_PRODUCTS, GET_PRODUCT_BY_ID } from './constants'
 export { Amplify, Auth } from 'aws-amplify'
 
 export type {
+  CognitoConfig,
   ContextInitialize,
   ProductByIdQueryVariable,
   ProductsQueryVariable,

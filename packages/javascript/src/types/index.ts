@@ -1,3 +1,4 @@
+export type { CognitoConfig } from './cognito'
 export { ContextInitialize } from './core'
 
 export {

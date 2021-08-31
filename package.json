@@ -23,9 +23,10 @@
   },
   "scripts": {
     "build:modules": "yarn build:js && yarn build:react",
-    "build:next": "yarn build:modules && cd examples/with-nextjs && yarn build",
+    "build:next": "yarn build:modules && cd examples/with-nextjs && yarn && yarn build",
     "build:js": "yarn workspace @brikl/storefront-js build",
     "build:react": "yarn workspace @brikl/storefront-react build",
+    "dev:next": "yarn workspace @brikl/next dev",
     "dev:js": "yarn workspace @brikl/storefront-js dev",
     "dev:react": "yarn workspace @brikl/storefront-react dev",
     "publish:js": "yarn workspace @brikl/storefront-js publish",
@@ -40,10 +41,14 @@
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "amazon-cognito-identity-js": "^5.1.0",
+    "autoprefixer": "^10.3.3",
     "aws-amplify": "^4.2.5",
     "isomorphic-unfetch": "^3.1.0",
     "nanoid": "^3.1.25",
     "next": "^11.1.2",
-    "tailwindcss": "^2.2.9"
+    "postcss": "^8.3.6",
+    "reac": "^0.0.0",
+    "react-dom": "^17.0.2",
+    "sass": "^1.38.2"
   }
 }

@@ -23,7 +23,7 @@
   },
   "scripts": {
     "build:modules": "yarn build:js && yarn build:react",
-    "build:with-next": "yarn build:modules && cd examples/with-nextjs && yarn build",
+    "build:next": "yarn build:modules && cd examples/with-nextjs && yarn build",
     "build:js": "yarn workspace @brikl/storefront-js build",
     "build:react": "yarn workspace @brikl/storefront-react build",
     "dev:js": "yarn workspace @brikl/storefront-js dev",

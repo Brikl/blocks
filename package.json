@@ -43,6 +43,7 @@
     "aws-amplify": "^4.2.5",
     "isomorphic-unfetch": "^3.1.0",
     "nanoid": "^3.1.25",
-    "next": "^11.1.2"
+    "next": "^11.1.2",
+    "tailwindcss": "^2.2.9"
   }
 }

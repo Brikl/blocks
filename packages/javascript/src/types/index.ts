@@ -24,6 +24,6 @@ export type {
     ProductVariantType,
     MediaType,
     LocalizedSlug
-} from './typesRoot'
+} from './root'
 
 export type { HeaderField, QueryOption } from './utils'

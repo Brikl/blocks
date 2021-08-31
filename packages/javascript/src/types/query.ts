@@ -1,4 +1,4 @@
-import type { Product, ProductConnection } from './typesRoot'
+import type { Product, ProductConnection } from './root'
 
 export interface ProductByIdQueryVariable {
   id: string

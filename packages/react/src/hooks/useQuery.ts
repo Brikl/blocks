@@ -39,8 +39,8 @@ const useQuery = <Type, Variable = Object>(
         queryString,
         {
           ...options,
-          fetcher: {
-            ...(options.fetcher || {}),
+          headers: {
+            ...(options.headers || {}),
             signal: controller?.signal,
           },
         },

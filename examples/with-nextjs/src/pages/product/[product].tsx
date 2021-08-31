@@ -5,13 +5,13 @@ import type { GetServerSideProps } from 'next'
 
 import {
   getProduct,
-  ProductVariantOption,
-  ProductVariantType,
 } from '@brikl/storefront-js'
 import type {
   ReturnedData,
   ProductQueryResult,
   ProductVariant,
+  ProductVariantOption,
+  ProductVariantType,
 } from '@brikl/storefront-js'
 import { useEffect } from 'react'
 

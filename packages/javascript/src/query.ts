@@ -1,6 +1,6 @@
 import { query } from './core'
 
-import { GET_PRODUCTS, GET_PRODUCT_BY_ID } from './constants'
+import { GET_PRODUCTS, GET_PRODUCT_BY_ID, GATSBY_SHOP } from './constants'
 
 import type {
   StorefrontQuery,
@@ -8,6 +8,8 @@ import type {
   ProductsQueryResult,
   ProductsQueryVariable,
   ProductByIdQueryVariable,
+  GatsbyShopQueryResult,
+  GatsbyShopQueryVariable
 } from './types'
 
 export const getProduct: StorefrontQuery['product'] = async id => {
@@ -38,6 +40,20 @@ export const getProducts: StorefrontQuery['products'] = async ({
   )
 
   return product
+}
+
+export const getGatsbyShop: StorefrontQuery['gatsbyShop'] = async id => {
+  const gatsbyShop = await query<
+    GatsbyShopQueryResult,
+    GatsbyShopQueryVariable
+  >(GATSBY_SHOP, {
+    endpoint: 'https://api.mybrikl.com/graphql',
+    variables: {
+      id,
+    },
+  })
+
+  return gatsbyShop
 }
 
 // export const addToCart = async (

@@ -7,7 +7,9 @@ export {
   ReturnedData,
   StorefrontQuery,
   ProductQueryResult,
-  ProductsQueryResult
+  ProductsQueryResult,
+  GatsbyShopQueryResult,
+  GatsbyShopQueryVariable
 } from './query'
 
 export type {

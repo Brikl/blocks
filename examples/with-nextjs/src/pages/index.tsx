@@ -52,6 +52,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
     after: 'some-product',
   })
 
+  console.log("HI")
+  console.log("A", products)
+
   return {
     props: {
       products,

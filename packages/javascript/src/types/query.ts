@@ -22,9 +22,29 @@ export interface ProductsQueryResult {
   products: ProductConnection
 }
 
+export interface GatsbyShopQueryVariable {
+  id: string
+}
+
+export interface GatsbyShopQueryResult {
+  awsConfiguration: {
+    cognito: {
+      region: string
+      identityPoolId: string
+      userPoolId: string
+      userPoolWebClientId: string
+    }
+  }
+}
+
 export interface StorefrontQuery {
-  product: (id: ProductByIdQueryVariable['id']) => Promise<ReturnedData<ProductQueryResult>>
+  product: (
+    id: ProductByIdQueryVariable['id']
+  ) => Promise<ReturnedData<ProductQueryResult>>
   products: (
     varaibles: ProductsQueryVariable
   ) => Promise<ReturnedData<ProductsQueryResult>>
+  gatsbyShop: (
+    id: GatsbyShopQueryVariable['id']
+  ) => Promise<ReturnedData<GatsbyShopQueryResult>>
 }

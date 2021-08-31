@@ -1,7 +1,7 @@
 export type HeaderField = Record<string, string | number | boolean>
-
+export type Header = Omit<RequestInit, 'body'>
 export interface QueryOption<Variable = Object> {
-  headers?: HeaderField
+  headers?: Header
   variables?: Variable
-  fetcher?: Object
+  endpoint?: string
 }

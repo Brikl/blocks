@@ -85,3 +85,18 @@ export const GET_PRODUCT_BY_ID = `
         }
     }
 `
+
+export const GATSBY_SHOP = `
+    query gatsbyShop($id: ID!) {
+        shop(id: $id) {
+            awsConfiguration {
+                cognito {
+                    region
+                    identityPoolId
+                    userPoolId
+                    userPoolWebClientId
+                }
+            }
+        }
+    }
+`

@@ -8,19 +8,18 @@ const storefrontContext = createContext(StorefrontContext)
 
 export const StorefrontProvider: StorefrontProviderComponent = ({
   children,
-  context,
-  cognito = null,
+  config,
 }) => {
   let [contextManager] = useState(StorefrontContext)
 
   useEffect(() => {
-    contextManager.initialize(context)
+    contextManager.initialize(config)
 
-    if (cognito) {
-      Auth.configure(cognito)
+    if (config.cognito) {
+      Auth.configure(config.cognito)
       contextManager.reloadToken()
-    }
-  }, [context, cognito, contextManager])
+    } else contextManager.getUserToken()
+  }, [config, contextManager])
 
   return (
     <storefrontContext.Provider value={StorefrontContext}>

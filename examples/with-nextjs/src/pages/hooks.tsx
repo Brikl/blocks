@@ -1,16 +1,38 @@
 import type { FunctionComponent } from 'react'
 
 import Link from 'next/link'
-import type { GetServerSideProps } from 'next'
 
-import { gql, StorefrontContext } from '@brikl/storefront-js'
+import { useQuery } from '@brikl/storefront-react'
 
 interface Props {
   products: unknown[]
 }
 
 const Page: FunctionComponent<Props> = ({ products = [] }) => {
-  console.log(products.map(({ node }) => node))
+  const { data, errors, isLoading } = useQuery(`
+    query {
+      products(salesChannelId: "ff660213-ab56-4b7a-b2f1-3e0f74c2b28c", first: 5) {
+        edges {
+          cursor
+          node {
+            id
+            title
+            description
+            media {
+              source
+              alt
+            }
+            slugs {
+              url
+            }
+          }
+        }    
+      }
+    }
+  `)
+
+  if (isLoading) return <h1>Loading</h1>
+  if (errors) return <p>{JSON.stringify}</p>
 
   return (
     <main
@@ -38,51 +60,6 @@ const Page: FunctionComponent<Props> = ({ products = [] }) => {
       ))}
     </main>
   )
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  StorefrontContext.initialize({
-    shopId: 'vermarc',
-  })
-
-  const { data, errors } = await gql(`
-    query {
-      products(salesChannelId: "ff660213-ab56-4b7a-b2f1-3e0f74c2b28c", first: 5) {
-        edges {
-          cursor
-          node {
-            id
-            title
-            description
-            media {
-              source
-              alt
-            }
-            slugs {
-              url
-            }
-          }
-        }    
-      }
-    }
-  `)
-
-  if (errors)
-    return {
-      props: {
-        products: [],
-      },
-    }
-
-  const {
-    products: { edges: products },
-  } = data
-
-  return {
-    props: {
-      products,
-    },
-  }
 }
 
 export default Page

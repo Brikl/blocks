@@ -16,7 +16,7 @@ const main = async () => {
             cursor
             node {
               id
-              title
+              titl
             }
           }    
         }

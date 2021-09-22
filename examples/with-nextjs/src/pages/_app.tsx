@@ -10,14 +10,14 @@ const NextApp: NextPage<AppProps> = props => {
 
   return (
     <StorefrontProvider
-      context={{
-        shopId: 'miku-dayo',
-      }}
-      cognito={{
-        identityPoolId: 'ap-southeast-1:5de69033-45cf-4c82-bc7e-bcbb1e4931e9',
-        region: 'ap_southeast_1',
-        userPoolId: 'ap-southeast-1_QHOvxpil2',
-        userPoolWebClientId: '2450tjiacsraekagtg3qi739de',
+      config={{
+        shopId: 'vermarc',
+        cognito: {
+          identityPoolId: 'ap-southeast-1:5de69033-45cf-4c82-bc7e-bcbb1e4931e9',
+          region: 'ap_southeast_1',
+          userPoolId: 'ap-southeast-1_QHOvxpil2',
+          userPoolWebClientId: '2450tjiacsraekagtg3qi739de',
+        },
       }}
     >
       <Component {...pageProps} />

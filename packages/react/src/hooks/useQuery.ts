@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { query, StorefrontContext } from '@brikl/storefront-js'
+import { gql, StorefrontContext } from '@brikl/storefront-js'
 import type { QueryOption } from '@brikl/storefront-js'
 
 import { useStorefront } from '../core'
@@ -35,7 +35,7 @@ const useQuery = <Type, Variable = Object>(
     updateLoading(true)
 
     try {
-      let { data, errors } = await query<Type>(
+      await gql<Type>(
         queryString,
         {
           ...options,
@@ -46,11 +46,15 @@ const useQuery = <Type, Variable = Object>(
         },
         storefrontContext || StorefrontContext
       )
+        .then(data => {
+          updateErrors(null)
+          updateData(data)
 
-      updateData(data)
-
-      if (errors) updateErrors(Array.isArray(errors) ? [...errors] : [errors])
-      else updateErrors(null)
+          return data
+        })
+        .catch(errors => {
+          updateErrors(Array.isArray(errors) ? [...errors] : [errors])
+        })
     } catch (error) {
       updateErrors(Array.isArray(error) ? [...error] : [error])
     } finally {

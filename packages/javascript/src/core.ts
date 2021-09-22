@@ -23,15 +23,14 @@ export class __Context {
   private shopId: string = ''
   private token: string = ''
   private salesChannelId: string = 'MYBRIKL'
-  private endpoint: string = 'https://dev.internal-api.brikl.com/v1/graphql'
+  private endpoint: string = 'https://dev.api.brikl.com/v1/graphql'
   private cognito: AWSCognitoConfiguration | null = null
 
   async initialize({ shopId, salesChannelId, cognito }: ContextInitialize) {
     this.shopId = shopId
     if (salesChannelId) this.salesChannelId = salesChannelId
     if (cognito) this.cognito = cognito
-
-    return await this.getUserToken()
+    else await this.getUserToken()
   }
 
   async getUserToken() {
@@ -78,7 +77,7 @@ export const gql = async <Result extends unknown, Variable = Object>(
   } = shop
 
   let headers: Record<string, any> = {
-    ...config?.headers,
+    ...((config?.headers?.headers || {}) as Object),
     'content-type': 'application/json',
     'x-brikl-shop-id': shopId,
     authorization: isServer
@@ -91,6 +90,7 @@ export const gql = async <Result extends unknown, Variable = Object>(
   const result: Promise<Result> = await fetch(config?.endpoint || endpoint, {
     method: 'POST',
     credentials: 'include',
+    ...config?.headers,
     headers,
     body: JSON.stringify({
       query: queryString,

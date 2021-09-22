@@ -3,19 +3,15 @@ import type { FunctionComponent } from 'react'
 import Link from 'next/link'
 import type { GetServerSideProps } from 'next'
 
-import { getProducts } from '@brikl/storefront-js'
-import type { ProductsQueryResult, ReturnedData } from '@brikl/storefront-js'
+import { query, StorefrontContext } from '@brikl/storefront-js'
 
 interface Props {
-  products: ReturnedData<ProductsQueryResult>
+  // products: ReturnedData<ProductsQueryResult>
 }
 
-const Page: FunctionComponent<Props> = ({
-  products: {
-    data: { products },
-    errors,
-  },
-}) => {
+const Page: FunctionComponent<Props> = () => {
+  return <h2>HI</h2>
+
   return (
     <main
       className="grid gap-4 w-full max-w-[1280px] mx-auto p-4"
@@ -47,17 +43,30 @@ const Page: FunctionComponent<Props> = ({
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const products = await getProducts({
-    first: 0,
-    after: 'some-product',
+  StorefrontContext.initialize({
+    shopId: 'vermarc',
+    salesChannelId: 'ff660213-ab56-4b7a-b2f1-3e0f74c2b28c',
   })
+  
+  const a = await query(`
+    query {
+      products(salesChannelId: "ff660213-ab56-4b7a-b2f1-3e0f74c2b28c", first: 5) {
+        edges {
+          cursor
+          node {
+            id
+            title
+          }
+        }    
+      }
+    }
+  `)
 
-  console.log("HI")
-  console.log("A", products)
+  console.log(a)
 
   return {
     props: {
-      products,
+      products: [],
     },
   }
 }

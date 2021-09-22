@@ -16,7 +16,7 @@ export const StorefrontProvider: StorefrontProviderComponent = ({
   useEffect(() => {
     contextManager.initialize(context)
 
-    if(cognito) {
+    if (cognito) {
       Auth.configure(cognito)
       contextManager.reloadToken()
     }

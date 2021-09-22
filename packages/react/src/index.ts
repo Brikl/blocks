@@ -4,5 +4,3 @@ export {
   StorefrontProvider,
   useStorefront,
 } from './core'
-
-export { useProductById, useProducts } from './hooks'

@@ -1,14 +1,19 @@
 import { Auth } from 'aws-amplify'
 
+import fetch from 'isomorphic-unfetch'
 import { nanoid } from 'nanoid'
 
 import { getGatsbyShop } from './query'
-import type { ContextInitialize, ReturnedData, QueryOption } from './types'
+import type {
+  ContextInitialize,
+  QueryOption,
+  AWSCognitoConfiguration,
+} from './types'
 
 const isServer = typeof window === 'undefined'
 
 /**
- * ! __SECRET_INTERNAL_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
+ * __SECRET_INTERNAL_DO_NOT_USE_OR_YOU_WILL_BE_FIRED (not really be fired tho)
  *
  * ? Must be export for declaration map generation.
  * If not export, `@brikl/storefront-react` build with declaration map will be failed
@@ -17,36 +22,38 @@ export class __Context {
   // Private field by # is not implemented on Terser yet
   private shopId: string = ''
   private token: string = ''
-  private endpoint: string = 'http://localhost:4200/api/storefront-mock-api'
+  private salesChannelId: string = 'MYBRIKL'
+  private endpoint: string = 'https://dev.internal-api.brikl.com/v1/graphql'
+  private cognito: AWSCognitoConfiguration | null = null
 
-  // TODO: Query congnito function from Backend
-  async initialize({ shopId }: ContextInitialize) {
+  async initialize({ shopId, salesChannelId, cognito }: ContextInitialize) {
     this.shopId = shopId
+    if (salesChannelId) this.salesChannelId = salesChannelId
+    if (cognito) this.cognito = cognito
 
+    return await this.getUserToken()
+  }
+
+  async getUserToken() {
     if (!isServer) {
-      const { data } = await getGatsbyShop(shopId)
-
-      if (!data) return
-
-      const {
-        awsConfiguration: { cognito },
-      } = data
+      let cognito = this.cognito
+      if (!cognito) cognito = await getGatsbyShop(this.shopId)
 
       Auth.Credentials.configure(cognito)
 
-      await this.reloadToken()
+      return await this.reloadToken()
     }
   }
 
   async reloadToken() {
-    try {
-      if (typeof Auth.Credentials.Auth === 'undefined') return
+    if (typeof Auth.Credentials.Auth === 'undefined') return
 
-      const session = await Auth.currentSession()
-      const token = session.getIdToken().getJwtToken()
+    const session = await Auth.currentSession()
+    const token = session.getIdToken().getJwtToken()
 
-      this.token = token
-    } catch (error) {}
+    this.token = token
+
+    return token
   }
 
   get context() {
@@ -54,52 +61,45 @@ export class __Context {
       shopId: this.shopId,
       token: this.token,
       endpoint: this.endpoint,
+      salesChannelId: this.salesChannelId,
     }
   }
 }
 
 export const StorefrontContext = new __Context()
 
-export const query = async <Result extends unknown, Variable = Object>(
+export const gql = async <Result extends unknown, Variable = Object>(
   queryString: string,
   config?: QueryOption<Variable>,
   shop = StorefrontContext
 ) => {
   const {
-    context: { shopId, token, endpoint },
+    context: { shopId, token, endpoint, salesChannelId },
   } = shop
 
   let headers: Record<string, any> = {
+    ...config?.headers,
     'content-type': 'application/json',
     'x-brikl-shop-id': shopId,
+    authorization: isServer
+      ? `${shopId}-GUESTORG-${nanoid(8)}`
+      : token
+      ? `Bearer ${token}`
+      : '',
   }
 
-  if (isServer)
-    headers = {
-      ...headers,
-      authorization: `${shopId}-GUESTORG-${nanoid(8)}`,
-    }
-  else if (token)
-    headers = {
-      ...headers,
-      authorization: `Bearer ${token}`,
-    }
-
-  console.log('URL', config?.endpoint || endpoint)
-
-  const result: Promise<ReturnedData<Result>> = await fetch(
-    config?.endpoint || endpoint,
-    {
-      method: 'POST',
-      credentials: 'include',
-      ...headers,
-      ...config?.headers,
-      body: JSON.stringify({
-        query: queryString,
-        variables: config?.variables || {},
-      }),
-    }
-  ).then(res => res.json())
+  const result: Promise<Result> = await fetch(config?.endpoint || endpoint, {
+    method: 'POST',
+    credentials: 'include',
+    headers,
+    body: JSON.stringify({
+      query: queryString,
+      variables: {
+        ...config?.variables,
+        salesChannelId,
+      },
+    }),
+  }).then(res => res.json())
 
   return result
 }

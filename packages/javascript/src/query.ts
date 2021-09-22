@@ -1,59 +1,40 @@
-import { query } from './core'
-
-import { GET_PRODUCTS, GET_PRODUCT_BY_ID, GATSBY_SHOP } from './constants'
+import { gql } from './core'
 
 import type {
   StorefrontQuery,
-  ProductQueryResult,
-  ProductsQueryResult,
-  ProductsQueryVariable,
-  ProductByIdQueryVariable,
   GatsbyShopQueryResult,
-  GatsbyShopQueryVariable
+  GatsbyShopQueryVariable,
 } from './types'
 
-export const getProduct: StorefrontQuery['product'] = async id => {
-  const product = await query<ProductQueryResult, ProductByIdQueryVariable>(
-    GET_PRODUCT_BY_ID,
+export const getGatsbyShop: StorefrontQuery['gatsbyShop'] = async id => {
+  const {
+    data: {
+      shop: {
+        awsConfiguration: { cognito },
+      },
+    },
+  } = await gql<GatsbyShopQueryResult, GatsbyShopQueryVariable>(
+    `query gatsbyShop($id: ID!) {
+  shop(id: $id) {
+    awsConfiguration {
+      cognito {
+        region
+        identityPoolId
+        userPoolId
+        userPoolWebClientId
+      }
+    }
+  }
+}`,
     {
+      endpoint: 'https://api.mybrikl.com/graphql',
       variables: {
         id,
       },
     }
   )
 
-  return product
-}
-
-export const getProducts: StorefrontQuery['products'] = async ({
-  first,
-  after,
-}) => {
-  const product = await query<ProductsQueryResult, ProductsQueryVariable>(
-    GET_PRODUCTS,
-    {
-      variables: {
-        first,
-        after,
-      },
-    }
-  )
-
-  return product
-}
-
-export const getGatsbyShop: StorefrontQuery['gatsbyShop'] = async id => {
-  const gatsbyShop = await query<
-    GatsbyShopQueryResult,
-    GatsbyShopQueryVariable
-  >(GATSBY_SHOP, {
-    endpoint: 'https://api.mybrikl.com/graphql',
-    variables: {
-      id,
-    },
-  })
-
-  return gatsbyShop
+  return cognito
 }
 
 // export const addToCart = async (

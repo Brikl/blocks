@@ -1,20 +1,30 @@
-import { StorefrontContext, getProduct, getProducts } from '../src'
+import { gql, StorefrontContext } from '../src'
 
 StorefrontContext.initialize({
-  shopId: 'hi',
+  shopId: 'vermarc',
+  salesChannelId: 'ff660213-ab56-4b7a-b2f1-3e0f74c2b28c',
 })
 
 const main = async () => {
-  await StorefrontContext.reloadToken()
+  await StorefrontContext.getUserToken()
 
-  console.log('getProduct', await getProduct('hi'))
-
-  console.log(
-    'getProducts',
-    await getProducts({
-      first: 4,
-      after: 'something',
-    })
+  console.dir(
+    await gql(`
+      query {
+        products(salesChannelId: "ff660213-ab56-4b7a-b2f1-3e0f74c2b28c", first: 5) {
+          edges {
+            cursor
+            node {
+              id
+              title
+            }
+          }    
+        }
+      }
+    `),
+    {
+      depth: null
+    }
   )
 }
 

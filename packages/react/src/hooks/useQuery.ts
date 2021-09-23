@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { gql, StorefrontContext } from '@brikl/storefront-js'
+import Storefront, { gql } from '@brikl/storefront-js'
 import type { QueryOption } from '@brikl/storefront-js'
 
 import { useStorefront } from '../core'
@@ -15,7 +15,7 @@ const useQuery = <Type, Variable = Object>(
   let [errors, updateErrors] = useState<unknown[] | null>(null)
   let [isLoading, updateLoading] = useState(false)
 
-  let storefrontContext = useStorefront()
+  let storefront = useStorefront()
 
   let controller = useMemo(() => {
     if (isServer || !AbortController) return null
@@ -44,7 +44,7 @@ const useQuery = <Type, Variable = Object>(
             signal: controller?.signal,
           },
         },
-        storefrontContext || StorefrontContext
+        storefront || Storefront
       )
         .then(data => {
           updateErrors(null)
@@ -60,7 +60,7 @@ const useQuery = <Type, Variable = Object>(
     } finally {
       updateLoading(false)
     }
-  }, [queryString, options, storefrontContext])
+  }, [queryString, options, storefront])
 
   let refetch = useCallback(() => {
     controller?.abort()

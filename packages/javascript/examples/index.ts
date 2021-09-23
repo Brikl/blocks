@@ -1,31 +1,33 @@
-import { gql, StorefrontContext } from '../src'
-
-StorefrontContext.initialize({
-  shopId: 'vermarc',
-  salesChannelId: 'ff660213-ab56-4b7a-b2f1-3e0f74c2b28c',
-})
+import Storefront, { gql } from '../src'
 
 const main = async () => {
-  await StorefrontContext.getUserToken()
+  Storefront.initialize({
+    shopId: 'vermarc',
+    salesChannelId: 'ff660213-ab56-4b7a-b2f1-3e0f74c2b28c',
+  })
 
-  console.dir(
-    await gql(`
-      query {
-        products(salesChannelId: "ff660213-ab56-4b7a-b2f1-3e0f74c2b28c", first: 5) {
-          edges {
-            cursor
-            node {
-              id
-              titl
-            }
-          }    
-        }
+  await Storefront.setupCognito()
+
+  const { data, errors } = await gql(`
+    query example($first: Int!) {
+      products(first: $first) {
+        edges {
+          cursor
+          node {
+            id
+            title
+          }
+        }    
       }
-    `),
-    {
-      depth: null
     }
-  )
+`, {
+  variables: {
+    first: 5
+  }
+})
+
+  if (errors) console.log(errors)
+  else console.dir(data, { depth: null })
 }
 
 main()

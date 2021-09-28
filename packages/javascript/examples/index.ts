@@ -2,8 +2,8 @@ import Storefront, { gql } from '../src'
 
 const main = async () => {
   Storefront.initialize({
-    shopId: 'vermarc',
-    salesChannelId: 'ff660213-ab56-4b7a-b2f1-3e0f74c2b28c',
+    shopId: '630d0cbc-a125-4537-9258-ca830009765a',
+    salesChannelId: '772f078e-df33-4c69-af40-44eef5c51b9c',
   })
 
   await Storefront.setupCognito()

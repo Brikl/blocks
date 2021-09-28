@@ -1,5 +1,6 @@
-import { gql } from './core'
+import { Storefront, gql } from './core'
 
+import type { CognitoUserSession } from 'amazon-cognito-identity-js'
 import type {
   StorefrontQuery,
   GatsbyShopQueryResult,
@@ -7,7 +8,7 @@ import type {
 } from './types'
 
 export const appendSalesChannelToQuery = (query: string) => {
-  const matcher = /(query|mutation|subscription)\ (.*?)\{(.*)/gs
+  const matcher = /(query)\ (.*?)\{(.*)/gs
   const [_, __, queryHeader, queries] = matcher.exec(query) || ['', '', '']
 
   if (!queries) return query
@@ -17,8 +18,7 @@ export const appendSalesChannelToQuery = (query: string) => {
 
   if (queryHeader.includes('('))
     newHeader = queryHeader.replace('(', '($salesChannelId: ID!, ')
-  else
-    newHeader = queryHeader.trimRight() + '($salesChannelId: ID!) '
+  else newHeader = queryHeader.trimRight() + '($salesChannelId: ID!) '
 
   newQueries = newQueries.replace(queryHeader, newHeader)
 
@@ -36,11 +36,12 @@ export const appendSalesChannelToQuery = (query: string) => {
 export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async id => {
   const {
     data: {
+      // @ts-ignore
       shop: {
         awsConfiguration: { cognito },
       },
     },
-  } = await gql<GatsbyShopQueryResult, GatsbyShopQueryVariable>(
+  } = await gql<'shop', GatsbyShopQueryResult, GatsbyShopQueryVariable>(
     `query gatsbyShop($id: ID!) {
   shop(id: $id) {
     awsConfiguration {
@@ -58,6 +59,7 @@ export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async id => {
       variables: {
         id,
       },
+      skipSalesChannelId: true,
     }
   )
 
@@ -65,8 +67,24 @@ export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async id => {
 }
 
 // export const addToCart = async (
-//   config: StorefrontConfig,
-//   session: CognitoUserSession | Promise<CognitoUserSession>
+//   config = Storefront
 // ) => {
-//   const user = await session
+//   const session = config.context.token
+
+//   const a = await gql(`
+//     mutation createMutation {
+//       createOrder(input: {
+//         cartId: "",
+//         billingAddressId: ""
+//         comment: ""
+//         currencyCode: ""
+//         languageCode: ""
+//         notifyToEmail:""
+//         shippingAddressId: ""
+//         meta: {}
+//       }) {
+//         orderId
+//       }
+//     }
+//   `)
 // }

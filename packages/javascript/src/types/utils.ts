@@ -20,4 +20,5 @@ export interface QueryOption<Variable = Object> {
    * Custom endpoint
    */
   endpoint?: string
+  skipSalesChannelId?: boolean
 }

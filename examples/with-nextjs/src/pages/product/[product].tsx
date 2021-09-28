@@ -1,318 +1,147 @@
-// import { useState, Fragment } from 'react'
-// import type { FunctionComponent } from 'react'
+import { Fragment, useEffect, useState } from 'react'
+import type { FunctionComponent } from 'react'
 
-// import type { GetServerSideProps } from 'next'
+import Head from 'next/head'
+import type { GetServerSideProps } from 'next'
 
-// import {
-//   getProduct,
-// } from '@brikl/storefront-js'
-// import type {
-//   ReturnedData,
-//   ProductQueryResult,
-//   ProductVariant,
-//   ProductVariantOption,
-//   ProductVariantType,
-// } from '@brikl/storefront-js'
-// import { useEffect } from 'react'
+import { gql } from '@brikl/storefront-js'
+import type { Edge, Edges } from '@brikl/storefront-js'
 
-// interface ProductProps {
-//   product: ReturnedData<ProductQueryResult>
-// }
+import { Card } from '../../components'
+import { GET_PRODUCTS, GET_DETAILED_PRODUCT } from '../../services'
+import type { Product, DetailedProduct } from '../../models/products'
 
-// // ? Mockup variants
-// const mockVariants: ProductVariant[] = [
-//   {
-//     id: 'flawke',
-//     title: 'Color',
-//     type: 'COLOR',
-//     options: [
-//       {
-//         id: 'c1',
-//         detail: '#007aff',
-//       },
-//       {
-//         id: 'c2',
-//         detail: '#EF4444',
-//       },
-//       {
-//         id: 'c3',
-//         detail: '#10B981',
-//       },
-//       {
-//         id: 'c4',
-//         detail: '#6366F1',
-//       },
-//       {
-//         id: 'c5',
-//         detail: '#F59E0B',
-//       },
-//       {
-//         id: 'c6',
-//         detail: '#EC4899',
-//       },
-//       {
-//         id: 'c7',
-//         detail: '#3730A3',
-//       },
-//       {
-//         id: 'c8',
-//         detail: '#FECACA',
-//       },
-//     ],
-//   },
-//   {
-//     id: 'awdged',
-//     title: 'Size',
-//     type: 'SIZE',
-//     options: [
-//       {
-//         id: 's1',
-//         detail: '29',
-//       },
-//       {
-//         id: 's2',
-//         detail: '30',
-//       },
-//       {
-//         id: 's3',
-//         detail: '31',
-//       },
-//       {
-//         id: 's4',
-//         detail: '32',
-//       },
-//       {
-//         id: 's5',
-//         detail: '33',
-//       },
-//       {
-//         id: 's6',
-//         detail: '34',
-//       },
-//       {
-//         id: 's7',
-//         detail: '35',
-//       },
-//       {
-//         id: 's8',
-//         detail: '36',
-//       },
-//     ],
-//   },
-//   {
-//     id: 'awadwjd',
-//     title: 'length',
-//     type: 'SIZE',
-//     options: [
-//       {
-//         id: 's1',
-//         detail: '26',
-//       },
-//       {
-//         id: 's2',
-//         detail: '27',
-//       },
-//       {
-//         id: 's3',
-//         detail: '28',
-//       },
-//     ],
-//   },
-// ]
+interface ProductProps {
+  product: DetailedProduct
+  moreProducts: Edge<Product>[]
+}
 
-// const ProductPage: FunctionComponent<ProductProps> = ({ product }) => {
-//   let [selection, updateSelection] = useState(0)
-//   let [selectedVariants, updateVariantSelection] = useState<
-//     Record<string, string>
-//   >({})
+const ProductPage: FunctionComponent<ProductProps> = ({
+  product,
+  moreProducts,
+}) => {
+  let [viewing, updateViewing] = useState(
+    product.media.find(({ isThumbnail }) => isThumbnail || product.media[0])
+  )
+  let [selectedVariant, updateSelectedVariant] = useState<string>(null)
 
-//   // TODO: Resolve DateTime error
-//   // if (product.errors.length) return <h1>{JSON.stringify(product.errors)}</h1>
+  useEffect(() => {
+    updateViewing(
+      product.media.find(({ isThumbnail }) => isThumbnail || product.media[0])
+    )
+  }, [product])
 
-//   let handleSelect = ({ id, value }: { id: string; value: string }) => {
-//     updateVariantSelection({
-//       ...selectedVariants,
-//       [id]: value,
-//     })
-//   }
+  return (
+    <>
+      <Head>
+        <title>{product.title}</title>
+      </Head>
+      <main className="flex flex-col sm:flex-row w-full max-w-[840px] mx-auto gap-10 px-4 py-12">
+        <div className="flex flex-1 flex-col">
+          <img key={viewing.id} src={viewing.source} alt={viewing.alt} />
+          <section
+            className="grid gap-1 mt-1"
+            style={{
+              gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))',
+            }}
+          >
+            {product.media.map(media => (
+              <button
+                className="w-full max-h-full"
+                key={media.id}
+                onClick={() => updateViewing(media)}
+              >
+                <img src={media.source} alt={media.alt} />
+              </button>
+            ))}
+          </section>
+        </div>
+        <article className="flex flex-col flex-1">
+          <h1 className="text-4xl font-bold mb-2">{product.title}</h1>
+          <p className="text-gray-600 text-lg font-semibold">
+            {product.price.amount} {product.price.currencyCode}
+          </p>
+          <h2 className="text-lg my-6 text-gray-600">{product.description}</h2>
 
-//   let {
-//     data: {
-//       product: productData,
-//       product: { title, description, attributes, media, variants },
-//     },
-//   } = product
-//   let selectedProduct = attributes[selection]
+          <section className="flex flex-col">
+            {product.options.map(({ title, values }) => (
+              <Fragment key={title}>
+                <p className="mb-2">{title}</p>
+                <form
+                  className="flex flex-row flex-wrap w-full gap-x-1 gap-y-2"
+                  onClick={e => {
+                    e.preventDefault()
+                  }}
+                >
+                  {values.map(({ id, title }) => (
+                    <button
+                      key={title}
+                      className={`text-sm px-4 py-2 border ${
+                        selectedVariant === id
+                          ? 'text-white border-black bg-black'
+                          : 'text-gray-800 border-gray-300'
+                      } rounded-full transition-colors`}
+                      onClick={() => {
+                        updateSelectedVariant(id)
+                      }}
+                    >
+                      {title}
+                    </button>
+                  ))}
+                </form>
+              </Fragment>
+            ))}
+          </section>
+        </article>
+      </main>
+      <section className="flex flex-col w-full max-w-[840px] my-8 px-4 mx-auto">
+        <h2 className="text-3xl font-bold mb-4">You might also like</h2>
+        <section
+          className="grid gap-x-6 gap-y-12"
+          style={{
+            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          }}
+        >
+          {moreProducts.map(({ node }) => (
+            <Card key={node.id} {...node} />
+          ))}
+        </section>
+      </section>
+    </>
+  )
+}
 
-//   useEffect(() => {
-//     console.log(productData)
-//   }, [productData])
+export const getServerSideProps: GetServerSideProps<ProductProps> =
+  async ctx => {
+    const { data, errors } = await gql<'product', DetailedProduct>(
+      GET_DETAILED_PRODUCT,
+      {
+        variables: {
+          id: ctx.params.product,
+        },
+      }
+    )
 
-//   return (
-//     <main className="flex flex-row justify-center items-start w-full max-w-[1280px] mx-auto px-4 py-12">
-//       <section className="flex flex-[2]">
-//         <aside className="flex flex-col gap-2 min-w-[84px] w-[84px] pr-4 cursor-pointer">
-//           {media.map(({ id, source, alt }, index) => (
-//             <button
-//               type="button"
-//               key={id}
-//               className={`w-full ${index === selection ? '' : 'opacity-50'}`}
-//               onClick={() => {
-//                 updateSelection(index)
-//               }}
-//             >
-//               <img key={id} src={source} alt={alt} />
-//             </button>
-//           ))}
-//         </aside>
-//         <div className="flex flex-row">
-//           <img
-//             src={selectedProduct.source}
-//             alt={selectedProduct.title}
-//             title={selectedProduct.title}
-//           />
-//         </div>
-//       </section>
-//       <article className="flex flex-1 flex-col pl-8">
-//         <h1 className="text-3xl font-semibold text-gray-900 mb-2">{title}</h1>
-//         <h2 className="text-base font-normal text-gray-500 mb-4">
-//           {description}
-//         </h2>
+    const { data: moreProducts, errors: moreProductsError } = await gql<
+      'products',
+      Edges<Product>
+    >(GET_PRODUCTS, {
+      variables: {
+        first: 12,
+      },
+    })
 
-//         {variants.map(({ id, title, options, type }) => (
-//           <section key={id} className="flex flex-col w-full my-3">
-//             <h5 className="text-sm text-gray-800 capitalize">{title}</h5>
-//             <div className="flex flex-row flex-nowrap gap-1 mt-2">
-//               {options.map(option => (
-//                 <Fragment key={option.id}>
-//                   {selectorMap[type]({
-//                     ...option,
-//                     handleSelect,
-//                     variantId: id,
-//                     active: selectedVariants[id] === option.id,
-//                   })}
-//                 </Fragment>
-//               ))}
-//             </div>
-//           </section>
-//         ))}
+    if (errors || moreProductsError || data === null)
+      return {
+        notFound: true,
+      }
 
-//         <div className="flex flex-row gap-2 my-4">
-//           <button className="text-lg text-white font-semibold py-2 w-full bg-black rounded-full">
-//             Add To Cart
-//           </button>
-//           <button className="text-lg text-gray-600 py-2 w-full bg-gray-200 rounded-full">
-//             Add To Wishlist
-//           </button>
-//         </div>
-//       </article>
-//     </main>
-//   )
-// }
+    return {
+      props: {
+        product: data.product,
+        moreProducts: moreProducts.products.edges || [],
+      },
+    }
+  }
 
-// interface SelectorProps extends ProductVariantOption {
-//   variantId: string
-//   active?: boolean
-//   handleSelect: (input: { id: string; value: string }) => void
-// }
-
-// const ColorSelector = ({
-//   id,
-//   detail,
-//   variantId,
-//   active = false,
-//   handleSelect,
-// }: SelectorProps) => {
-//   let handleClick = () => {
-//     handleSelect({ id: variantId, value: id })
-//   }
-
-//   return (
-//     <button
-//       type="button"
-//       className={`text-sm w-[24px] h-[24px] rounded-full cursor-pointe`}
-//       onClick={handleClick}
-//       style={{
-//         backgroundColor: detail,
-//         boxShadow: active
-//           ? `inset 0px 0px 0px 2px ${detail}, inset 0px 0px 0px 5px #fff`
-//           : '',
-//       }}
-//     />
-//   )
-// }
-
-// const GenderSelector = ({
-//   id,
-//   detail,
-//   active = false,
-//   variantId,
-//   handleSelect,
-// }: SelectorProps) => {
-//   let handleClick = () => {
-//     handleSelect({ id: variantId, value: id })
-//   }
-
-//   return (
-//     <button
-//       type="button"
-//       onClick={handleClick}
-//       className="text-sm px-3 py-1 rounded-full border border-gray-300 cursor-pointer"
-//     >
-//       {detail}
-//     </button>
-//   )
-// }
-
-// const SizeSelector = ({
-//   id,
-//   detail,
-//   active = false,
-//   variantId,
-//   handleSelect,
-// }: SelectorProps) => {
-//   let handleClick = () => {
-//     handleSelect({ id: variantId, value: id })
-//   }
-
-//   return (
-//     <button
-//       type="button"
-//       onClick={handleClick}
-//       className={`text-xs hover:text-white focus:text-white w-[36px] h-[36px] rounded-full border border-gray-300 hover:border-black focus:border-black hover:bg-black focus:bg-black transition-colors cursor-pointer ${
-//         active ? 'text-white bg-black border-black' : ' bg-white text-black'
-//       }`}
-//     >
-//       {detail}
-//     </button>
-//   )
-// }
-
-// const selectorMap: Record<ProductVariantType, typeof ColorSelector> = {
-//   COLOR: ColorSelector,
-//   GENDER: GenderSelector,
-//   SIZE: SizeSelector,
-// }
-
-// export const getServerSideProps: GetServerSideProps<ProductProps> =
-//   async () => {
-//     let products = await getProduct('eldridge')
-
-//     return {
-//       props: {
-//         product: {
-//           ...products,
-//           data: {
-//             product: {
-//               ...products.data.product,
-//               variants: mockVariants,
-//             },
-//           },
-//         },
-//       },
-//     }
-//   }
-
-// export default ProductPage
-
-export default () => <h1>Hello</h1>
+export default ProductPage

@@ -8,6 +8,9 @@ export type {
   StorefrontQuery,
   HeaderField,
   QueryOption,
+  QueryResult,
+  Edge,
+  Edges,
 } from './types'
 
 import { Storefront } from './core'

@@ -1,26 +1,13 @@
-export interface GatsbyShopQueryVariable {
-  id: string
+export interface QueryResult<T extends unknown, Name extends string = string> {
+  data?: Record<Name, T>
+  errors?: Error[]
 }
 
-export interface AWSCognitoConfiguration {
-  region: string
-  identityPoolId: string
-  userPoolId: string
-  userPoolWebClientId: string
+export interface Edge<T extends unknown> {
+  cursor: string
+  node: T
 }
 
-export interface GatsbyShopQueryResult {
-  data: {
-    shop: {
-      awsConfiguration: {
-        cognito: AWSCognitoConfiguration
-      }
-    }
-  }
-}
-
-export interface StorefrontQuery {
-  gatsbyShop: (
-    id: GatsbyShopQueryVariable['id']
-  ) => Promise<AWSCognitoConfiguration>
+export interface Edges<T extends unknown> {
+  edges: Edge<T>[]
 }

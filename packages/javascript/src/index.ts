@@ -1,17 +1,22 @@
-export { Storefront, __StorefrontContext, gql } from './core'
+import { Storefront } from './core'
 
-export { Amplify, Auth } from 'aws-amplify'
+export { Storefront, __StorefrontContext, gql } from './core'
+export type {
+  ContextInitialize,
+  CognitoConfig,
+  AWSCognitoConfiguration,
+} from './core'
 
 export type {
-  CognitoConfig,
-  ContextInitialize,
-  StorefrontQuery,
-  HeaderField,
-  QueryOption,
   QueryResult,
   Edge,
   Edges,
-} from './types'
+  HeaderField,
+  Header,
+  QueryOption,
+  GatsbyShopQueryResult,
+  GatsbyShopQueryVariable,
+  StorefrontQuery,
+} from './utils'
 
-import { Storefront } from './core'
 export default Storefront

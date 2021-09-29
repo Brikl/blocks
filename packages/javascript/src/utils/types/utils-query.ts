@@ -1,12 +1,7 @@
+import type { AWSCognitoConfiguration } from '../../core'
+
 export interface GatsbyShopQueryVariable {
   id: string
-}
-
-export interface AWSCognitoConfiguration {
-  region: string
-  identityPoolId: string
-  userPoolId: string
-  userPoolWebClientId: string
 }
 
 export interface GatsbyShopQueryResult {

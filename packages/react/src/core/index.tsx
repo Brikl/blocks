@@ -1,6 +1,6 @@
 import { useEffect, createContext, useState, useContext } from 'react'
 
-import Storefront, { Auth } from '@brikl/storefront-js'
+import Storefront from '@brikl/storefront-js'
 
 import type { StorefrontProviderComponent } from './types'
 
@@ -14,11 +14,6 @@ export const StorefrontProvider: StorefrontProviderComponent = ({
 
   useEffect(() => {
     contextManager.initialize(config)
-
-    if (config.cognito) {
-      Auth.configure(config.cognito)
-      contextManager.reloadToken()
-    } else contextManager.setupCognito()
   }, [config, contextManager])
 
   return (

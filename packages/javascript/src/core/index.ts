@@ -1,16 +1,12 @@
-import { Auth } from 'aws-amplify'
-
 import fetch from 'isomorphic-unfetch'
 import { nanoid } from 'nanoid'
 
-import { appendSalesChannelToQuery, getCognitoConfig } from './utils'
+import { appendSalesChannelToQuery, getCognitoConfig } from '../utils'
+import type { QueryOption, QueryResult } from '../utils'
 
-import type {
-  ContextInitialize,
-  QueryOption,
-  AWSCognitoConfiguration,
-  QueryResult,
-} from './types'
+import type { ContextInitialize, AWSCognitoConfiguration } from './types'
+
+import type { Auth } from 'aws-amplify'
 
 const isServer = typeof window === 'undefined'
 
@@ -39,6 +35,7 @@ export class __StorefrontContext {
   private salesChannelId: string = 'MYBRIKL'
   private cognito: AWSCognitoConfiguration | null = null
   private guestId = nanoid(8)
+  private Auth: typeof Auth | null = null
 
   endpoint: string = 'https://api.brikl.com/v1/graphql'
 
@@ -59,12 +56,17 @@ export class __StorefrontContext {
    * main()
    * ```
    */
-  async initialize({ shopId, salesChannelId, cognito }: ContextInitialize) {
+  async initialize({
+    shopId,
+    salesChannelId,
+    cognito,
+    setupCognito = false,
+  }: ContextInitialize) {
     this.shopId = shopId
     if (salesChannelId) this.salesChannelId = salesChannelId
 
     if (cognito) this.cognito = cognito
-    else await this.setupCognito()
+    else if (setupCognito) await this.setupCognito()
   }
 
   /**
@@ -86,6 +88,8 @@ export class __StorefrontContext {
       let cognito = this.cognito
       if (!cognito) cognito = await getCognitoConfig(this.shopId)
 
+      const Auth = await this.importAuth()
+
       Auth.Credentials.configure(cognito)
 
       return await this.reloadToken()
@@ -98,7 +102,7 @@ export class __StorefrontContext {
    * @returns AWS Cognito user's token
    */
   async reloadToken() {
-    if (typeof Auth.Credentials.Auth === 'undefined') return
+    const Auth = await this.importAuth()
 
     const session = await Auth.currentSession()
     const token = session.getIdToken().getJwtToken()
@@ -106,6 +110,15 @@ export class __StorefrontContext {
     this.token = token
 
     return token
+  }
+
+  private async importAuth() {
+    if (this.Auth) return this.Auth
+
+    const { Auth } = await require('aws-amplify')
+    this.Auth = Auth
+
+    return Auth
   }
 
   /**
@@ -219,3 +232,9 @@ export const gql = async <
 
   return result
 }
+
+export {
+  ContextInitialize,
+  CognitoConfig,
+  AWSCognitoConfiguration,
+} from './types'

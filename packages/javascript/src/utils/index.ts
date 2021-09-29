@@ -1,6 +1,5 @@
-import { Storefront, gql } from './core'
+import { gql } from '../core'
 
-import type { CognitoUserSession } from 'amazon-cognito-identity-js'
 import type {
   StorefrontQuery,
   GatsbyShopQueryResult,
@@ -88,3 +87,15 @@ export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async id => {
 //     }
 //   `)
 // }
+
+export type {
+  QueryResult,
+  Edge,
+  Edges,
+  HeaderField,
+  Header,
+  QueryOption,
+  GatsbyShopQueryResult,
+  GatsbyShopQueryVariable,
+  StorefrontQuery,
+} from './types'

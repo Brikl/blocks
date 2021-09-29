@@ -1,8 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "dist/esm",
     "rootDir": "src",
+    "target": "ES2019",
+    "module": "ES2015",
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM.Iterable", "DOM"],
     "declaration": true,

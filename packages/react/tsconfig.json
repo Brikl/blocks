@@ -4,6 +4,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "jsx": "react-jsx",
+    "module": "commonjs",
     "lib": ["ESNext", "DOM.Iterable", "DOM"],
     "declaration": true,
     "declarationMap": true,

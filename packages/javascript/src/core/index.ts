@@ -84,16 +84,14 @@ export class __StorefrontContext {
    * @returns AWS Cognito user's token
    */
   async setupCognito() {
-    if (!isServer) {
-      let cognito = this.cognito
-      if (!cognito) cognito = await getCognitoConfig(this.shopId)
+    if (isServer) return 
 
-      const Auth = await this.importAuth()
+    let cognito = this.cognito || await getCognitoConfig(this.shopId)
+    const Auth = await this.importAuth()
 
-      Auth.Credentials.configure(cognito)
+    Auth.Credentials.configure(cognito)
 
-      return await this.reloadToken()
-    }
+    return await this.reloadToken()
   }
 
   /**
@@ -115,7 +113,7 @@ export class __StorefrontContext {
   private async importAuth() {
     if (this.Auth) return this.Auth
 
-    const { Auth } = await require('aws-amplify')
+    const { Auth } = await import('aws-amplify')
     this.Auth = Auth
 
     return Auth

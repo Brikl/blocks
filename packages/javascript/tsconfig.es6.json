@@ -3,12 +3,12 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
-    "target": "ES2019",
-    "module": "ES2015",
+    "target": "es2020",
+    "module": "es2020",
     "lib": ["ESNext", "DOM.Iterable", "DOM"],
     "sourceMap": true,
     "composite": true,
-    "outDir": "dist",
+    "outDir": "dist/esm",
     "rootDir": "src",
     "esModuleInterop": true
   },

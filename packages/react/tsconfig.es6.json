@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "dist/esm",
     "rootDir": "src",
-    "target": "ES2019",
-    "module": "ES2015",
+    "target": "es2020",
+    "module": "es2020",
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM.Iterable", "DOM"],
     "declaration": true,

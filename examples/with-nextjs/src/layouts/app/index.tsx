@@ -1,10 +1,20 @@
 import type { FunctionComponent } from 'react'
 
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+const NextNprogress = dynamic(() => import('nextjs-progressbar'))
 
 const AppLayout: FunctionComponent = ({ children }) => {
   return (
     <>
+      <NextNprogress
+        color="#000"
+        startPosition={0.3}
+        stopDelayMs={200}
+        height={3}
+        showOnShallow
+      />
       <nav className="sticky top-0 w-full h-[52px] bg-white px-4">
         <div className="flex flex-row items-center w-full max-w-[1280px] mx-auto h-full">
           <Link href="/">

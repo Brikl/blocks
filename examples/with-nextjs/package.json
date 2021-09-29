@@ -10,6 +10,7 @@
   "dependencies": {
     "autoprefixer": "^10.3.1",
     "next": "11",
+    "nextjs-progressbar": "^0.0.11",
     "postcss": "^8.3.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -20,6 +21,7 @@
     "@babel/core": "^7.15.0",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",
+    "prop-types": "^15.7.2",
     "typescript": "^4.3.5"
   }
 }

@@ -42,6 +42,7 @@
   "dependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
+    "next": "^11.1.2",
     "react": "^17.0.2"
   },
   "peerDependencies": {

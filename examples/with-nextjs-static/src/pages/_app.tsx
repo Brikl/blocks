@@ -1,8 +1,8 @@
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 
-import Storefront from '@brikl/storefront-js'
-import { StorefrontProvider } from '@brikl/storefront-react'
+import Storefront from '@brikl/blocks'
+import { StorefrontProvider } from '@brikl/blocks-react'
 
 import 'tailwindcss/tailwind.css'
 import { AppLayout } from '../layouts'

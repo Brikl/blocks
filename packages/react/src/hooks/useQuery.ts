@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react'
 
-import Storefront, { gql } from '@brikl/storefront-js'
-import type { QueryOption, QueryResult } from '@brikl/storefront-js'
+import Storefront, { gql } from '@brikl/blocks'
+import type { QueryOption, QueryResult } from '@brikl/blocks'
 
 import { useStorefront } from '../core'
 
@@ -12,7 +12,7 @@ const isServer = typeof window === 'undefined'
  *
  * @example
  * ```typescript
- * import { useQuery } from '@brikl/storefront-react'
+ * import { useQuery } from '@brikl/blocks-react'
  *
  * useQuery(`
  *   query getProducts {

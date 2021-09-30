@@ -3,8 +3,8 @@ import { Fragment, useEffect, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import { useQuery } from '@brikl/storefront-react'
-import type { Edge, Edges } from '@brikl/storefront-js'
+import { useQuery } from '@brikl/blocks-react'
+import type { Edge, Edges } from '@brikl/blocks'
 
 import { Card, LoadingIndicator } from '../../components'
 import { GET_PRODUCTS, GET_DETAILED_PRODUCT } from '../../services'

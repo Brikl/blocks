@@ -1,6 +1,6 @@
 import { useEffect, createContext, useState, useContext } from 'react'
 
-import Storefront from '@brikl/storefront-js'
+import Storefront from '@brikl/blocks'
 
 import type { StorefrontProviderComponent } from './types'
 

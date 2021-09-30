@@ -3,14 +3,14 @@ import type { FunctionComponent } from 'react'
 import Head from 'next/head'
 import type { GetServerSideProps } from 'next'
 
-import { gql } from '@brikl/storefront-js'
-import { useQuery } from '@brikl/storefront-react'
+import { gql } from '@brikl/blocks'
+import { useQuery } from '@brikl/blocks-react'
 
 import { Card } from '../components'
 import { GET_PRODUCTS } from '../services'
 import type { Product } from '../models'
 
-import type { Edge, Edges } from '@brikl/storefront-js'
+import type { Edge, Edges } from '@brikl/blocks'
 
 interface Props {
   products: Edge<Product>[]

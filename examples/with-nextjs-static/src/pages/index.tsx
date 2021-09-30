@@ -2,13 +2,13 @@ import type { FunctionComponent } from 'react'
 
 import Head from 'next/head'
 
-import { useQuery } from '@brikl/storefront-react'
+import { useQuery } from '@brikl/blocks-react'
 
 import { Card, LoadingIndicator } from '../components'
 import { GET_PRODUCTS } from '../services'
 import type { Product } from '../models'
 
-import type { Edge, Edges } from '@brikl/storefront-js'
+import type { Edge, Edges } from '@brikl/blocks'
 
 interface Props {
   products: Edge<Product>[]

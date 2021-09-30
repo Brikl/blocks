@@ -28,6 +28,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Installing modules
         run: yarn
@@ -39,3 +40,5 @@ jobs:
       # Publishing packages js and react
       - name: Publishing packages
         run: yarn publish:js && yarn publish:react
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

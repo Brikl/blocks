@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, useRef } from 'react'
 
 import Storefront, { gql } from '@brikl/storefront-js'
 import type { QueryOption, QueryResult } from '@brikl/storefront-js'
@@ -43,40 +43,40 @@ const useQuery = <
   Variable = Object
 >(
   queryString: string,
-  options: QueryOption<Variable> = {}
+  options: QueryOption<Variable> = {
+    skip: false,
+    variables: {},
+    headers: {},
+    skipSalesChannelId: false,
+  }
 ) => {
   let [data, updateData] = useState<QueryResult<Type, Name> | null>(null)
   let [errors, updateErrors] = useState<unknown[] | null>(null)
   let [isLoading, updateLoading] = useState(false)
 
+  let controller = useRef<AbortController | null>(null)
+
   let storefront = useStorefront()
 
-  let controller = useMemo(() => {
-    if (isServer || !AbortController) return null
-
-    return new AbortController()
-  }, [isServer])
-
   useEffect(() => {
-    fetchData()
+    refetch()
 
-    return () => {
-      controller?.abort()
-    }
-  }, [])
+    return abort
+  }, [JSON.stringify(options.variables), options.skip])
 
   let fetchData = useCallback(async () => {
     updateLoading(true)
+    controller.current = new AbortController()
 
     try {
       await gql<Name, Type>(
         queryString,
         {
-          ...options,
           headers: {
             ...(options.headers || {}),
-            signal: controller?.signal,
+            signal: controller.current.signal,
           },
+          variables: options.variables,
         },
         storefront || Storefront
       )
@@ -89,6 +89,9 @@ const useQuery = <
         .catch(errors => {
           updateErrors(Array.isArray(errors) ? [...errors] : [errors])
         })
+        .finally(() => {
+          controller.current = null
+        })
     } catch (error) {
       updateErrors(Array.isArray(error) ? [...error] : [error])
     } finally {
@@ -97,17 +100,24 @@ const useQuery = <
   }, [queryString, options, storefront])
 
   let refetch = useCallback(() => {
-    controller?.abort()
+    if (isServer) return
 
-    fetchData()
-  }, [controller, fetchData])
+    if (controller.current) abort()
+
+    if (options.skip) updateLoading(false)
+    else fetchData()
+  }, [JSON.stringify(options.variables), options.skip])
+
+  let abort = useCallback(() => {
+    controller.current?.abort()
+  }, [])
 
   return {
     data: data?.data,
     isLoading,
-    errors: data?.errors,
+    errors: errors?.concat(data?.errors),
     refetch,
-    cancelFetch: controller?.abort,
+    abort,
   }
 }
 

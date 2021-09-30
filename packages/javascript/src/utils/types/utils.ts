@@ -15,10 +15,14 @@ export interface QueryOption<Variable = Object> {
   /**
    * GraphQL variables to include
    */
-  variables?: Variable
+  variables?: Variable | {}
   /**
    * Custom endpoint
    */
   endpoint?: string
   skipSalesChannelId?: boolean
+  /**
+   * Pause the query until ready
+   */
+  skip?: boolean
 }

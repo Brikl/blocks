@@ -24,6 +24,7 @@
   "scripts": {
     "build:modules": "yarn build:js && yarn build:react",
     "build:next": "yarn build:modules && cd examples/with-nextjs && yarn && yarn build && cd ../..",
+    "build:next-static": "yarn build:modules && cd examples/with-nextjs-static && yarn && yarn build && yarn export && cd ../..",
     "build:js": "yarn workspace @brikl/storefront-js build",
     "build:react": "yarn workspace @brikl/storefront-react build",
     "dev:next": "yarn workspace @brikl/next dev",

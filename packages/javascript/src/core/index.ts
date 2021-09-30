@@ -16,7 +16,7 @@ const isServer = typeof window === 'undefined'
  *
  * @example
  * ```typescript
- * import { StorefrontContext } from '@brikl/storefront-js'
+ * import { StorefrontContext } from '@brikl/blocks'
  *
  * const main = async () => {
  *   StorefrontContext.initialize({
@@ -44,7 +44,7 @@ export class __StorefrontContext {
    *
    * @example
    * ```typescript
-   * import { StorefrontContext } from '@brikl/storefront-js'
+   * import { StorefrontContext } from '@brikl/blocks'
    *
    * const main = async () => {
    *   StorefrontContext.initialize({
@@ -145,7 +145,7 @@ export const Storefront = new __StorefrontContext()
  *
  * @example
  * ```typescript
- * import Storefront, { gql } from '@brikl/storefront-js'
+ * import Storefront, { gql } from '@brikl/blocks'
  *
  * const main = async () => {
  *   Storefront.initialize({

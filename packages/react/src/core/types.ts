@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react'
 
-import type { ContextInitialize, CognitoConfig } from '@brikl/storefront-js'
+import type { ContextInitialize, CognitoConfig } from '@brikl/blocks'
 
 export interface StorefrontProviderProps {
   config: ContextInitialize

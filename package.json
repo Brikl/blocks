@@ -25,13 +25,13 @@
     "build:modules": "yarn build:js && yarn build:react",
     "build:next": "yarn build:modules && cd examples/with-nextjs && yarn && yarn build && cd ../..",
     "build:next-static": "yarn build:modules && cd examples/with-nextjs-static && yarn && yarn build && yarn export && cd ../..",
-    "build:js": "yarn workspace @brikl/storefront-js build",
-    "build:react": "yarn workspace @brikl/storefront-react build",
+    "build:js": "yarn workspace @brikl/blocks build",
+    "build:react": "yarn workspace @brikl/blocks-react build",
     "dev:next": "yarn workspace @brikl/next dev",
-    "dev:js": "yarn workspace @brikl/storefront-js dev",
-    "dev:react": "yarn workspace @brikl/storefront-react dev",
-    "publish:js": "yarn workspace @brikl/storefront-js publish",
-    "publish:react": "yarn workspace @brikl/storefront-react publish"
+    "dev:js": "yarn workspace @brikl/blocks dev",
+    "dev:react": "yarn workspace @brikl/blocks-react dev",
+    "publish:js": "yarn workspace @brikl/blocks publish",
+    "publish:react": "yarn workspace @brikl/blocks-react publish"
   },
   "devDependencies": {
     "esbuild-node-externals": "^1.3.0",

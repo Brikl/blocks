@@ -4,10 +4,15 @@
     "outDir": "dist",
     "rootDir": "src",
     "jsx": "react-jsx",
-    "lib": ["esnext", "dom"],
+    "module": "commonjs",
+    "lib": ["ESNext", "DOM.Iterable", "DOM"],
     "declaration": true,
     "declarationMap": true,
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "composite": true,
   },
   "include": ["src"],
   "references": [{ "path": "../javascript" }]

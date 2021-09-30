@@ -1,56 +1,82 @@
 import type { FunctionComponent } from 'react'
 
-import Link from 'next/link'
+import Head from 'next/head'
 import type { GetServerSideProps } from 'next'
 
-import { getProducts } from '@brikl/storefront-js'
-import type { ProductsQueryResult, ReturnedData } from '@brikl/storefront-js'
+import { gql } from '@brikl/storefront-js'
+import { useQuery } from '@brikl/storefront-react'
+
+import { Card } from '../components'
+import { GET_PRODUCTS } from '../services'
+import type { Product } from '../models'
+
+import type { Edge, Edges } from '@brikl/storefront-js'
 
 interface Props {
-  products: ReturnedData<ProductsQueryResult>
+  products: Edge<Product>[]
 }
 
-const Page: FunctionComponent<Props> = ({
-  products: {
-    data: { products },
-    errors,
-  },
-}) => {
+const Page: FunctionComponent<Props> = ({ products = [] }) => {
+  const { data = null } = useQuery<
+    'products',
+    Edges<Product>,
+    {
+      first: number
+      after: string
+    }
+  >(GET_PRODUCTS, {
+    variables: {
+      first: 20,
+      after: products[19]?.cursor || '',
+    },
+  })
+
   return (
-    <main
-      className="grid gap-4 w-full max-w-[1280px] mx-auto p-4"
-      style={{
-        gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
-      }}
-    >
-      {products.edges.map(
-        ({
-          node: {
-            id,
-            title,
-            description,
-            media: [{ source, alt }],
-            slugs: [{ url }],
-          },
-        }) => (
-          <Link key={id} href={`/product/${url}`}>
-            <article className="flex flex-col cursor-pointer">
-              <img className="mb-2" src={source} alt={alt} />
-              <h3 className="text-3xl font-semibold my-2">{title}</h3>
-              <h4 className="text-base text-gray-500">{description}</h4>
-            </article>
-          </Link>
-        )
-      )}
-    </main>
+    <>
+      <Head>
+        <title>BRIKL Shop</title>
+      </Head>
+      <header className="flex justify-center items-center my-16 px-4 py-16">
+        <h1 className="text-3xl sm:text-4xl">BRIKL Custom Shop</h1>
+      </header>
+      <main
+        className="grid gap-x-6 gap-y-12 w-full max-w-[1280px] mx-auto p-4"
+        style={{
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+        }}
+      >
+        {products.map(({ node }) => (
+          <Card key={node.id} {...node} />
+        ))}
+        {data !== null
+          ? data.products.edges.map(({ node }) => (
+              <Card key={node.id} {...node} />
+            ))
+          : null}
+      </main>
+    </>
   )
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const products = await getProducts({
-    first: 0,
-    after: 'some-product',
+  const { data, errors } = await gql<'products', Edges<Product>>(GET_PRODUCTS, {
+    variables: {
+      first: 40,
+    },
   })
+
+  if (errors)
+    return {
+      props: {
+        products: [],
+      },
+    }
+
+  const {
+    products: { edges: products },
+  } = data
+
+  data.products
 
   return {
     props: {

@@ -3,11 +3,14 @@
   "compilerOptions": {
     "declaration": true,
     "declarationMap": true,
+    "target": "ES5",
+    "module": "commonjs",
     "lib": ["ESNext", "DOM.Iterable", "DOM"],
     "sourceMap": true,
     "composite": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "esModuleInterop": true
   },
   "include": ["src"]
 }

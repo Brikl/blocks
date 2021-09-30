@@ -1,14 +1,38 @@
 {
   "name": "@brikl/storefront-js",
   "version": "1.0.0",
-  "description": "JavaScript API to building storefronts with BRIKL",
-  "repository": "https://github.com/Brikl/blocks",
-  "author": "Phumrapee Limpianchop <contact@rayriffy.com>",
+  "description": "JavaScript API for creating custom BRIKL storefront",
+  "contributors": [
+    {
+      "name": "Phumrapee Limpianchop",
+      "email": "contact@rayriffy.com"
+    },
+    {
+      "name": "SaltyAom",
+      "email": "saltyaom@gmail.com"
+    }
+  ],
   "license": "MIT",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/esm/index.js",
+  "typings": "dist/index.d.ts",
+  "repository": "https://github.com/Brikl/blocks",
+  "homepage": "https://github.com/Brikl/blocks",
+  "bugs": "https://github.com/Brikl/blocks/issues",
+  "keywords": [
+    "BRIKL",
+    "BRIKL Storefront"
+  ],
   "scripts": {
-    "build": "tsc --build .",
+    "build": "tsc --build . && tsc --project tsconfig.es6.json",
     "dev": "tsc --watch ."
+  },
+  "dependencies": {
+    "aws-amplify": ">= 4.0.0",
+    "isomorphic-unfetch": "^3.1.0",
+    "nanoid": "^3.1.28"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.1"
   }
 }

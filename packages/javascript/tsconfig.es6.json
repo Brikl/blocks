@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "target": "es2020",
+    "module": "es2020",
+    "lib": ["ESNext", "DOM.Iterable", "DOM"],
+    "sourceMap": true,
+    "composite": true,
+    "outDir": "dist/esm",
+    "rootDir": "src",
+    "esModuleInterop": true
+  },
+  "include": ["src"]
+}

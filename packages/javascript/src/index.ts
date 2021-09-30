@@ -1,29 +1,22 @@
-export { StorefrontContext, query, __Context } from './core'
-export { getProduct, getProducts } from './query'
+import { Storefront } from './core'
 
-export { GET_PRODUCTS, GET_PRODUCT_BY_ID } from './constants'
-
-export { Amplify, Auth } from 'aws-amplify'
-
+export { Storefront, __StorefrontContext, gql } from './core'
 export type {
   ContextInitialize,
-  ProductByIdQueryVariable,
-  ProductsQueryVariable,
-  ReturnedData,
-  StorefrontQuery,
-  Product,
-  ProductConnection,
-  ProductEdge,
-  ProductAttribute,
-  ProductMedia,
-  ProductVariantOption,
-  PageInfo,
-  ProductVariant,
-  ProductVariantType,
-  MediaType,
-  LocalizedSlug,
+  CognitoConfig,
+  AWSCognitoConfiguration,
+} from './core'
+
+export type {
+  QueryResult,
+  Edge,
+  Edges,
   HeaderField,
+  Header,
   QueryOption,
-  ProductQueryResult,
-  ProductsQueryResult
-} from './types'
+  GatsbyShopQueryResult,
+  GatsbyShopQueryVariable,
+  StorefrontQuery,
+} from './utils'
+
+export default Storefront

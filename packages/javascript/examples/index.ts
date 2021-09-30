@@ -1,21 +1,33 @@
-import { StorefrontContext, getProduct, getProducts } from '../src'
-
-StorefrontContext.initialize({
-  shopId: 'hi',
-})
+import Storefront, { gql } from '../src'
 
 const main = async () => {
-  await StorefrontContext.reloadToken()
+  Storefront.initialize({
+    shopId: '630d0cbc-a125-4537-9258-ca830009765a',
+    salesChannelId: '772f078e-df33-4c69-af40-44eef5c51b9c',
+  })
 
-  console.log('getProduct', await getProduct('hi'))
+  await Storefront.setupCognito()
 
-  console.log(
-    'getProducts',
-    await getProducts({
-      first: 4,
-      after: 'something',
-    })
-  )
+  const { data, errors } = await gql(`
+    query example($first: Int!) {
+      products(first: $first) {
+        edges {
+          cursor
+          node {
+            id
+            title
+          }
+        }    
+      }
+    }
+`, {
+  variables: {
+    first: 5
+  }
+})
+
+  if (errors) console.log(errors)
+  else console.dir(data, { depth: null })
 }
 
 main()

@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/esm",
+    "rootDir": "src",
+    "target": "es2020",
+    "module": "es2020",
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM.Iterable", "DOM"],
+    "declaration": true,
+    "declarationMap": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "composite": true,
+  },
+  "include": ["src"],
+  "references": [{ "path": "../javascript" }]
+}

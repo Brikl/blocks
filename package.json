@@ -29,8 +29,8 @@
     "dev:next": "yarn workspace @brikl/next dev",
     "dev:js": "yarn workspace @brikl/storefront-js dev",
     "dev:react": "yarn workspace @brikl/storefront-react dev",
-    "publish:js": "yarn workspace @brikl/storefront-js publish",
-    "publish:react": "yarn workspace @brikl/storefront-react publish"
+    "publish:js": "yarn workspace @brikl/storefront-js publish --access public",
+    "publish:react": "yarn workspace @brikl/storefront-react publish --access public"
   },
   "devDependencies": {
     "esbuild-node-externals": "^1.3.0",

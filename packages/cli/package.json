@@ -1,0 +1,28 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "description": "cli helper for brikl blocks",
+  "main": "index.js",
+  "license": "MIT",
+  "author": {
+    "name": "Tanis P",
+    "email": "tanis@brikl.com",
+    "url": "https://github.com/pankace"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "tape": "^5.3.1"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pankace/cli.git"
+  },
+  "homepage": "https://github.com/pankace/cli",
+  "bugs": {
+    "url": "https://github.com/pankace/cli/issues"
+  }
+}

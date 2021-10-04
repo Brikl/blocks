@@ -1,28 +1,42 @@
 {
-  "name": "cli",
+  "name": "@brikl/blocks-cli",
   "version": "1.0.0",
   "description": "cli helper for brikl blocks",
-  "main": "index.js",
+  "contributors": [
+    {
+      "name": "Tanis P",
+      "email": "tanis@brikl.com",
+      "url": "https://github.com/pankace"
+    }
+  ],
+  "main": "dist/index.js",
   "license": "MIT",
-  "author": {
-    "name": "Tanis P",
-    "email": "tanis@brikl.com",
-    "url": "https://github.com/pankace"
-  },
-  "dependencies": {},
+  "repository": "https://github.com/Brikl/blocks",
+  "homepage": "https://github.com/Brikl/blocks",
+  "bugs": "https://github.com/Brikl/blocks/issues",
+  "keywords": [
+    "BRIKL",
+    "BRIKL Storefront"
+  ],
   "devDependencies": {
-    "tape": "^5.3.1"
+    "@types/jasmine": "^3.9.1",
+    "jasmine-core": "^3.9.0",
+    "karma": "^6.3.4",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^4.0.1",
+    "karma-webpack": "^5.0.0",
+    "tape": "^5.3.1",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.3",
+    "webpack": "^5.56.1",
+    "webpack-dev-server": "^4.3.0"
   },
   "scripts": {
-    "test": "node test.js"
-  },
-  "keywords": [],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/pankace/cli.git"
-  },
-  "homepage": "https://github.com/pankace/cli",
-  "bugs": {
-    "url": "https://github.com/pankace/cli/issues"
+    "lint": "eslint --color --ignore-path .gitignore .",
+    "dev": "npm run build -- --watch",
+    "build": "webpack -p",
+    "test": "karma start",
+    "pretest": "npm run build",
+    "prepublishOnly": "npm test"
   }
 }

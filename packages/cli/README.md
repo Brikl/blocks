@@ -9,12 +9,13 @@ cli helper for brikl blocks
 Use [npm](https://npmjs.com/) to install.
 
 ```sh
-npm install cli --save
+npm install -g @brikl-blocks-cli --save
 ```
 
 ## Usage
 
-[![NPM](https://nodei.co/npm/cli.png)](https://www.npmjs.com/package/cli)
+[![NPM](https://nodei.co/npm/cli.png)](https://www.npmjs.com/package/@brikl/blocks/cli)
+
 
 ## License
 

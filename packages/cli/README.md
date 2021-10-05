@@ -14,7 +14,7 @@ npm install -g @brikl-blocks-cli --save
 
 ## Usage
 
-[![NPM](https://nodei.co/npm/cli.png)](https://www.npmjs.com/package/@brikl/blocks/cli)
+[![NPM](https://nodei.co/npm/@brikl/blocks/cli.png)](https://www.npmjs.com/package/@brikl/blocks/cli)
 
 
 ## License

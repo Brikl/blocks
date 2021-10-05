@@ -9,7 +9,11 @@
       "url": "https://github.com/pankace"
     }
   ],
-  "main": "dist/index.js",
+  "main": "./src/index.js",
+  "bin": {
+    "blocks": "./lib/index.js",
+    "pizza": "./lib/index-pizza.js"
+  },
   "license": "MIT",
   "repository": "https://github.com/Brikl/blocks",
   "homepage": "https://github.com/Brikl/blocks",
@@ -36,11 +40,13 @@
   },
   "scripts": {
     "lint": "eslint --color --ignore-path .gitignore .",
-    "dev": "npm run build -- --watch",
-    "build": "webpack -p",
-    "test": "karma start",
     "pretest": "npm run build",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm test",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "create": "npm run build && npm run test",
+    "build": "tsc -p .",
+    "local": "sudo npm i -g && pizza",
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "dependencies": {
     "chalk": "^4.1.2",

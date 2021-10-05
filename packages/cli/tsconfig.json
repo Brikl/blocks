@@ -3,17 +3,13 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "jsx": "react-jsx",
-    "module": "commonjs",
-    "lib": ["ESNext", "DOM.Iterable", "DOM"],
     "declaration": true,
     "declarationMap": true,
-    "strict": true,
+    "strict": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "sourceMap": true,
     "composite": true,
   },
-  "include": ["src"],
-  "references": [{ "path": "../cli" }]
+  "include": ["src"]
 }

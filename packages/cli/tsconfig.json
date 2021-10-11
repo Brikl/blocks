@@ -1,14 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "module": "commonjs",
-    "lib": ["es6", "es2015", "dom"],
-    "declaration": true,
+    "lib": ["ES6", "ES2015", "ESNext"],
     "outDir": "lib",
     "rootDir": "src",
+    "types": ["node", "inquirer", "figlet", "fs-extra"],
     "strict": true,
-    "types": ["node"],
+    "declaration": true,
+    "experimentalDecorators": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "importHelpers": true
+  },
+  "exclude": [
+    "node_modules",
+    "lib",
+    "test",
+    "templates"
+  ]
 }

@@ -1,5 +1,5 @@
 import inquirer from 'inquirer';
-import { Answer } from '../models/choice';
+import { Answer } from '../interface/choice';
 
 export async function overwriteFileQuestion(): Promise<Answer> {
     return inquirer.prompt([{ 

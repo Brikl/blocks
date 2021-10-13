@@ -25,7 +25,6 @@ export enum UniversalChoiceValue {
     POSTCSS_CONFIG = 'postcss.config.js',
     TAILWIND_CONFIG = 'tailwind.config.js',
     CONTRIBUTING = 'CONTRIBUTING.md',
-
 }
 
 export enum github {

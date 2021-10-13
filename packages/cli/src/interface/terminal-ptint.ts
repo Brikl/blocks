@@ -1,4 +1,4 @@
-export enum ConsoleMessage {
+export enum print {
     Title = 'Block',
     Subtitle = 'Defult website genrator for brikl',
     Error = 'Fail: ',

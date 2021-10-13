@@ -1,7 +1,7 @@
 {
   "name": "@brikl/blocks-cli",
   "version": "1.0.0",
-  "description": "cli helper for brikl blocks",
+  "description": "Create a custom storefront on BRIKL with JavaScript/TypeScript, React and Next.js. This command line tool generates the React app based on the storefront template",
   "contributors": [
     {
       "name": "Tanis P",

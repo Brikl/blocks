@@ -9,7 +9,7 @@ cli helper for brikl blocks
 Use [npm](https://npmjs.com/) to install.
 
 ```sh
-npm install -g @brikl-blocks-cli --save
+npm install -g @brikl/blocks-cli --save
 ```
 
 ## Usage

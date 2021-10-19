@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Embed from "../../components/Embed.astro";
+import ImageGallery from "../../components/ImageGallery.tsx";
 
 import { fakeGql } from "../../utils/fakeGql";
 
@@ -69,12 +70,14 @@ const res = await fakeGql(`
 const productData = res.data.salesChannelProduct;
 ---
 <BaseLayout>
-    <main>
-       <h1>{productData.title}</h1>
-         <div>
-            <img width="100" src={productData.media[0].source}/>
-            <p>{productData.description}</p>
-            <h6>{productData.price.amount} {productData.price.currencyCode}</h6>
+    <main class="flex min-h-screen items-center">
+         <div class="w-full">
+            <div><ImageGallery images={productData.media.map(m => m.source)} client:visible/></div>
+         </div>
+        <div class="flex flex-col items-start w-full p-4">
+            <h1 class="text-2xl font-bold mb-2">{productData.title}</h1>
+            <h6 class="text-lg mb-2">{productData.price.amount} {productData.price.currencyCode}</h6>
+            <p >{productData.description}</p>
         </div>
     </main>
     <Embed client:visible/>

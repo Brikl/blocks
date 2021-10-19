@@ -1,5 +1,6 @@
 ---
 import { fakeGql } from "../utils/fakeGql";
+import { ProductCard } from "../components/ProductCard";
 // import { Product } from "../types/Product";
 
 const res = await fakeGql(`
@@ -43,14 +44,13 @@ const productList = res.data.salesChannelProducts.edges.map(edge => {
 })
 
 ---
-
-{productList.map((item) => (
-    <a href={`/products/${item.id}`}>
-        <div>
-            <img width="100" src={item.media[0].source}/>
-            <h4>{item.title}</h4>
-            <span>{item.description}</span>
-            <h6>{item.price.amount} {item.price.currencyCode}</h6>
-        </div>
-    </a>
-))}
+<div class="flex flex-wrap items-stretch">
+  {productList.map((item) => (
+      <ProductCard
+        href={`/products/${item.id}`}
+        image={item.media[0].source}
+        title={item.title}
+        price={`${item.price.amount} ${item.price.currencyCode}`}
+      />
+  ))}
+</div>

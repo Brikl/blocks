@@ -1,15 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ProductList from "../components/ProductList.astro";
+
+import { Heading } from "../components/Heading";
+
 ---
 <BaseLayout>
     <main>
-        <header>
-            <div>
-                <h1>Welcome to 0kb storefront!</h1>
-            </div>
-        </header>    
-        <h1>Hello World!</h1>
+        <Heading/>
         <ProductList/>
     </main>
 </BaseLayout>

@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Embed from "../../components/Embed.astro";
+
+import { fakeGql } from "../../utils/fakeGql";
+
+export async function getStaticPaths() {
+    const res = await fakeGql(`
+    query salesChannelProducts($salesChannelId: ID!) {
+        salesChannelProducts(salesChannelId: $salesChannelId) {
+        edges {
+            cursor
+            node {
+            id
+            slugs {
+                url
+                langCode
+            }
+            }
+        }    
+        }
+    }
+    `, {
+        salesChannelId: 'd905fcce-fa90-4197-ac9c-d90e0c0cdc5a'
+    })
+
+    return res.data.salesChannelProducts.edges.map(edge => {
+        const data = edge.node;
+        return {
+            params: {
+                productId: data.id
+            }
+        }
+    })
+}
+
+const {productId} = Astro.request.params;
+
+const res = await fakeGql(`
+  query salesChannelProduct($productId: ID!, $salesChannelId: ID!) {
+    salesChannelProduct(id: $productId, salesChannelId: $salesChannelId) {
+       id
+        title
+        description
+        media {
+            id
+            type
+            source
+            alt
+            isThumbnail
+        }
+        price {
+            amount
+            currencyCode
+        }
+        options {
+            id
+            type
+            values {
+                id
+            }
+        } 
+    }
+  }
+`, {
+    salesChannelId: 'd905fcce-fa90-4197-ac9c-d90e0c0cdc5a',
+    productId
+})
+const productData = res.data.salesChannelProduct;
+---
+<BaseLayout>
+    <main>
+       <h1>{productData.title}</h1>
+         <div>
+            <img width="100" src={productData.media[0].source}/>
+            <p>{productData.description}</p>
+            <h6>{productData.price.amount} {productData.price.currencyCode}</h6>
+        </div>
+    </main>
+    <Embed client:visible/>
+</BaseLayout>

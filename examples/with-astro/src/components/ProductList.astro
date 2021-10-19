@@ -1,0 +1,56 @@
+---
+import { fakeGql } from "../utils/fakeGql";
+// import { Product } from "../types/Product";
+
+const res = await fakeGql(`
+  query salesChannelProducts($salesChannelId: ID!) {
+    salesChannelProducts(salesChannelId: $salesChannelId) {
+      edges {
+        cursor
+        node {
+          id
+          title
+          description
+          media {
+              id
+              type
+              source
+              alt
+              isThumbnail
+          }
+          price {
+              amount
+              currencyCode
+          }
+          options {
+              id
+              type
+              values {
+                id
+              }
+          }
+        }
+      }    
+    }
+  }
+`, {
+    salesChannelId: 'd905fcce-fa90-4197-ac9c-d90e0c0cdc5a'
+})
+
+const productList = res.data.salesChannelProducts.edges.map(edge => {
+    const data = edge.node;
+    return data 
+})
+
+---
+
+{productList.map((item) => (
+    <a href={`/products/${item.id}`}>
+        <div>
+            <img width="100" src={item.media[0].source}/>
+            <h4>{item.title}</h4>
+            <span>{item.description}</span>
+            <h6>{item.price.amount} {item.price.currencyCode}</h6>
+        </div>
+    </a>
+))}

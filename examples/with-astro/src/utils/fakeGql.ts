@@ -13,5 +13,9 @@ export const fakeGql = async (query: string, variables: any) => {
   })
   const jsonData = await res.json()
 
+  if ('errors' in jsonData) {
+    throw new Error(JSON.stringify(jsonData))
+  }
+
   return jsonData
 }

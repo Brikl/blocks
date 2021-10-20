@@ -6,7 +6,7 @@ export interface Product {
     source: string
     alt: string
     isThumbnail: boolean
-  }
+  }[]
   title: string
   description: string
   price: {

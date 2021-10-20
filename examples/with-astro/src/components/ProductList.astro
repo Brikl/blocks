@@ -1,47 +1,8 @@
 ---
-import { fakeGql } from "../utils/fakeGql";
+import { fetchProducts } from "../utils/fetchProducts";
 import { ProductCard } from "../components/ProductCard";
-// import { Product } from "../types/Product";
 
-const res = await fakeGql(`
-  query salesChannelProducts($salesChannelId: ID!) {
-    salesChannelProducts(salesChannelId: $salesChannelId) {
-      edges {
-        cursor
-        node {
-          id
-          title
-          description
-          media {
-              id
-              type
-              source
-              alt
-              isThumbnail
-          }
-          price {
-              amount
-              currencyCode
-          }
-          options {
-              id
-              type
-              values {
-                id
-              }
-          }
-        }
-      }    
-    }
-  }
-`, {
-    salesChannelId: 'd905fcce-fa90-4197-ac9c-d90e0c0cdc5a'
-})
-
-const productList = res.data.salesChannelProducts.edges.map(edge => {
-    const data = edge.node;
-    return data 
-})
+const productList = await fetchProducts();
 
 ---
 <div class="flex flex-wrap items-stretch">

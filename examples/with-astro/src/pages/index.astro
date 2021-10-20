@@ -8,6 +8,9 @@ import { Heading } from "../components/Heading";
 <BaseLayout>
     <main>
         <Heading/>
-        <ProductList/>
+        <div class="w-4/5 mx-auto min-h-full pt-4">
+            <h3 class="mb-4 font-bold text-2xl">Products</h3>
+            <ProductList client:visible/>
+        </div>
     </main>
 </BaseLayout>

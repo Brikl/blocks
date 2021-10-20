@@ -10,12 +10,14 @@ export const ProductCard = ({
   href: string
 }) => {
   return (
-    <a href={href} class="block w-1/4 h-full p-4">
-      <div class="shadow-md rounded-md h-full">
-        <image src={image} class="min-h-32" />
-        <div class="p-2 ">
-          <h4 class="text-xl bold">{title}</h4>
-          <h5 class="text-lg">{price}</h5>
+    <a href={href} className="block w-1/4 p-4">
+      <div className="shadow-md rounded-md h-full flex flex-col">
+        <div className="flex-1 flex items-center justify-center">
+          <image src={image} className="min-h-32 margin" />
+        </div>
+        <div className="p-2 min-h-32 text-center">
+          <h4 className="text-lg font-bold">{title}</h4>
+          <h5 className="text-md">{price}</h5>
         </div>
       </div>
     </a>

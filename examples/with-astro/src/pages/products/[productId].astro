@@ -3,30 +3,14 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Embed from "../../components/Embed.astro";
 import ImageGallery from "../../components/ImageGallery.tsx";
 
-import { fakeGql } from "../../utils/fakeGql";
+import { fetchProductDetails } from "../../utils/fetchProductDetails";
+import {fetchAllProductList } from "../../utils/fetchAllProductList";
+
 
 export async function getStaticPaths() {
-    const res = await fakeGql(`
-    query salesChannelProducts($salesChannelId: ID!) {
-        salesChannelProducts(salesChannelId: $salesChannelId) {
-        edges {
-            cursor
-            node {
-            id
-            slugs {
-                url
-                langCode
-            }
-            }
-        }    
-        }
-    }
-    `, {
-        salesChannelId: 'd905fcce-fa90-4197-ac9c-d90e0c0cdc5a'
-    })
+    const res = await  fetchAllProductList();
 
-    return res.data.salesChannelProducts.edges.map(edge => {
-        const data = edge.node;
+    return res.map(data => {
         return {
             params: {
                 productId: data.id
@@ -37,48 +21,21 @@ export async function getStaticPaths() {
 
 const {productId} = Astro.request.params;
 
-const res = await fakeGql(`
-  query salesChannelProduct($productId: ID!, $salesChannelId: ID!) {
-    salesChannelProduct(id: $productId, salesChannelId: $salesChannelId) {
-       id
-        title
-        description
-        media {
-            id
-            type
-            source
-            alt
-            isThumbnail
-        }
-        price {
-            amount
-            currencyCode
-        }
-        options {
-            id
-            type
-            values {
-                id
-            }
-        } 
-    }
-  }
-`, {
-    salesChannelId: 'd905fcce-fa90-4197-ac9c-d90e0c0cdc5a',
-    productId
-})
-const productData = res.data.salesChannelProduct;
+const productData = await fetchProductDetails(productId);
+
 ---
 <BaseLayout>
-    <main class="flex min-h-screen items-center">
-         <div class="w-full">
-            <div><ImageGallery images={productData.media.map(m => m.source)} client:visible/></div>
-         </div>
-        <div class="flex flex-col items-start w-full p-4">
-            <h1 class="text-2xl font-bold mb-2">{productData.title}</h1>
-            <h6 class="text-lg mb-2">{productData.price.amount} {productData.price.currencyCode}</h6>
-            <p >{productData.description}</p>
-        </div>
-    </main>
-    <Embed client:visible/>
+    <div class="w-4/5 mx-auto min-h-full pt-4">
+        <main class="flex min-h-screen items-center">
+            <div class="w-full">
+                <div><ImageGallery images={productData.media.map(m => m.source)} client:visible/></div>
+            </div>
+            <div class="flex flex-col items-start w-full p-4">
+                <h1 class="text-2xl font-bold mb-2">{productData.title}</h1>
+                <h6 class="text-lg mb-2">{productData.price.amount} {productData.price.currencyCode}</h6>
+                <p >{productData.description}</p>
+            </div>
+        </main>
+    </div>
+    <!-- <Embed client:visible/> -->
 </BaseLayout>

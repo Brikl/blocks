@@ -16,13 +16,15 @@ const ImageGallery = ({ images }: { images: string[] }) => {
         {images.map(image => {
           return (
             <div
-              className="w-1/4 p-2 h-32"
+              className="w-1/4 p-2 h-32 "
               onClick={() => {
                 setSelectedImage(image)
               }}
               key={image}
             >
-              <img src={image} className="max-w-full max-h-full" />
+              <div class="border h-full flex items-center justify-center">
+                <img src={image} className="max-w-full max-h-full " />
+              </div>
             </div>
           )
         })}

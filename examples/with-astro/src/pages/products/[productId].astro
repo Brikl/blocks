@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Embed from "../../components/Embed.astro";
+import {VariantPicker} from "../../components/VariantPicker";
 import ImageGallery from "../../components/ImageGallery.tsx";
 
 import { fetchProductDetails } from "../../utils/fetchProductDetails";
@@ -25,14 +25,15 @@ const productData = await fetchProductDetails(productId);
 
 ---
 <BaseLayout>
-    <div class="w-4/5 mx-auto min-h-full pt-4">
-        <main class="flex min-h-screen items-center">
-            <div class="w-full">
+    <div class="w-4/5 mx-auto min-h-full pt-16 ">
+        <main class="flex items-center flex-col-reverse md:flex-row">
+            <div class="w-full px-2">
                 <div><ImageGallery images={productData.media.map(m => m.source)} client:visible/></div>
             </div>
             <div class="flex flex-col items-start w-full p-4">
                 <h1 class="text-2xl font-bold mb-2">{productData.title}</h1>
                 <h6 class="text-lg mb-2">{productData.price.amount} {productData.price.currencyCode}</h6>
+                <VariantPicker options={productData.options} client:visible/>
                 <p >{productData.description}</p>
             </div>
         </main>

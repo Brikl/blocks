@@ -24,6 +24,6 @@ export interface Product {
     id: string
     type: string
     title: string
-    values: { id: string; title: string }
-  }
+    values: { id: string; title: string }[]
+  }[]
 }

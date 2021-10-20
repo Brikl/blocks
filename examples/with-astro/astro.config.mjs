@@ -15,4 +15,7 @@ export default {
   },
   renderers: ['@astrojs/renderer-react'],
   plugins: ['@snowpack/plugin-postcss'],
+  packageOptions: {
+    polyfillNode: true,
+  },
 }

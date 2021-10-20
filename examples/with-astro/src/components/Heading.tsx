@@ -1,7 +1,7 @@
 export const Heading = () => {
   return (
     <header
-      className="h-screen flex items-center justify-center text-white text-3xl"
+      className="h-screen flex items-center justify-center text-white text-3xl opacity-75"
       style={{
         backgroundColor: '#8B2950',
       }}

@@ -1,7 +1,14 @@
 ---
 import Navigation from "../components/Navigation.astro";
+import {MiniStudio} from "../components/MiniStudio.tsx";
 ---
+
 <div class="min-h-screen min-w-screen">
-    <Navigation/>
-    <slot/>
+    <div class="fixed top-0 left-0 w-screen h-screen opacity-0.5">
+        <MiniStudio client:idle/>
+    </div>
+    <div class="relative z-2">
+        <Navigation/>
+        <slot/>
+    </div>
 </div>

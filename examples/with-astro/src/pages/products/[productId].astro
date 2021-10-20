@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import {VariantPicker} from "../../components/VariantPicker";
+import {VariantPicker} from "../../components/VariantPicker.tsx";
 import ImageGallery from "../../components/ImageGallery.tsx";
 
 import { fetchProductDetails } from "../../utils/fetchProductDetails";
@@ -33,7 +33,7 @@ const productData = await fetchProductDetails(productId);
             <div class="flex flex-col items-start w-full p-4">
                 <h1 class="text-2xl font-bold mb-2">{productData.title}</h1>
                 <h6 class="text-lg mb-2">{productData.price.amount} {productData.price.currencyCode}</h6>
-                <VariantPicker options={productData.options} client:visible/>
+                {productData?.options && <VariantPicker options={productData.options} client:visible/>}
                 <p >{productData.description}</p>
             </div>
         </main>

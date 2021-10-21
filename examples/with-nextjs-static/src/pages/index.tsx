@@ -33,7 +33,7 @@ const Page: FunctionComponent<Props> = ({ products = [] }) => {
     errors,
     refetch,
   } = useQuery<
-    'products',
+    'salesChannelProducts',
     Edges<Product>,
     {
       first: number
@@ -79,7 +79,7 @@ const Page: FunctionComponent<Props> = ({ products = [] }) => {
           <Card key={node.id} {...node} />
         ))}
         {data !== null
-          ? data.products?.edges.map(({ node }) => (
+          ? data.salesChannelProducts?.edges.map(({ node }) => (
               <Card key={node.id} {...node} />
             ))
           : null}

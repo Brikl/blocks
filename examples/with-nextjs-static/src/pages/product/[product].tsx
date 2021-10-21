@@ -134,7 +134,7 @@ export const useProduct = (): ProductProps => {
     query: { product: id },
   } = useRouter()
 
-  const { data, errors, isLoading } = useQuery<'product', DetailedProduct>(
+  const { data, errors, isLoading } = useQuery<'salesChannelProduct', DetailedProduct>(
     GET_DETAILED_PRODUCT,
     {
       endpoint: 'https://dev.api.brikl.com/v1/graphql',
@@ -149,13 +149,14 @@ export const useProduct = (): ProductProps => {
     data: moreProducts,
     errors: moreProductsError,
     isLoading: moreProductIsLoading,
-  } = useQuery<'products', Edges<Product>>(GET_PRODUCTS, {
+  } = useQuery<'salesChannelProducts', Edges<Product>>(GET_PRODUCTS, {
+    endpoint: 'https://dev.api.brikl.com/v1/graphql',
     variables: {
       first: 12,
     },
   })
 
-  console.log(errors)
+  console.log(id, data, moreProducts)
 
   if (errors || moreProductsError || !data || isLoading || moreProductIsLoading)
     return {
@@ -171,8 +172,8 @@ export const useProduct = (): ProductProps => {
     notFound: false,
     isLoading: isLoading || moreProductIsLoading,
     data: {
-      product: data?.product,
-      moreProducts: moreProducts?.products?.edges || [],
+      product: data?.salesChannelProduct,
+      moreProducts: moreProducts?.salesChannelProducts?.edges || [],
     },
   }
 }

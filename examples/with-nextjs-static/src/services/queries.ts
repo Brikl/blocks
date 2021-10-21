@@ -39,10 +39,10 @@ export const GET_DETAILED_PRODUCT = `query GetProduct($id: ID!) {
         options {
             id
             type
-            title
+            # title
             values {
                 id
-                title
+                # title
             }
         }
     }

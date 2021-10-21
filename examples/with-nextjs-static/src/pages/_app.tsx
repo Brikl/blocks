@@ -8,8 +8,8 @@ import 'tailwindcss/tailwind.css'
 import { AppLayout } from '../layouts'
 
 Storefront.initialize({
-  shopId: '630d0cbc-a125-4537-9258-ca830009765a',
-  salesChannelId: '772f078e-df33-4c69-af40-44eef5c51b9c',
+  shopId: '667674bf-c3f8-4444-8127-29c77c7e6530',
+  salesChannelId: 'd905fcce-fa90-4197-ac9c-d90e0c0cdc5a',
 })
 
 const NextApp: NextPage<AppProps> = props => {

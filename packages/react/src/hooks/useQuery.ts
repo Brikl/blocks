@@ -72,6 +72,7 @@ const useQuery = <
       await gql<Name, Type>(
         queryString,
         {
+          ...options,
           headers: {
             ...(options.headers || {}),
             signal: controller.current.signal,

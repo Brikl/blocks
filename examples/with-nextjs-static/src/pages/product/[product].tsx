@@ -137,6 +137,7 @@ export const useProduct = (): ProductProps => {
   const { data, errors, isLoading } = useQuery<'product', DetailedProduct>(
     GET_DETAILED_PRODUCT,
     {
+      endpoint: 'https://dev.api.brikl.com/v1/graphql',
       skip: !id,
       variables: {
         id,

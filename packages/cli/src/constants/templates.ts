@@ -5,13 +5,14 @@ interface ITemplate {
   directory: string
 }
 
-const templates: Record<TemplateType, ITemplate> = {
-  nextjs: {
-    title: 'Next.js Starter',
+export const templates: Record<TemplateType, ITemplate> = {
+  'nextjs': {
+    title: 'Next.js',
     directory: 'examples/with-nextjs',
   },
   'react-static': {
-    title: 'React Static Starter',
+    title: 'React Static',
     directory: 'examples/with-react-static',
   },
 }
+

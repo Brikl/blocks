@@ -22,19 +22,14 @@
     "blocks": "./bin/blocks.js"
   },
   "scripts": {
-    "lint": "eslint --color --ignore-path .gitignore .",
-    "build": "npm run clean:some && tsc -p .",
+    "build": "yarn run clean:some && tsc -p .",
     "global": "npm i -g && cli-blocks",
     "start": "npm run build && npm run global",
     "refresh": "npm run clean:all && npm install",
-    "test": "npm run lint && npm run test:unit",
-    "test:unit": "nyc mocha",
     "clean:some": "rm -rf ./lib ./docs",
     "clean:all": "rm -rf ./node_modules ./package-lock.json ./lib ./docs",
     "tscov": "tscov --min-coverage 90",
-    "tscov:d": "tscov --details",
-    "docs": "typedoc --out docs ./src",
-    "publish-package": "npm run build && npm publish"
+    "tscov:d": "tscov --details"
   },
   "devDependencies": {
     "@liftr/tscov": "^2.0.0",

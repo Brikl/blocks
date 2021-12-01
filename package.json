@@ -1,6 +1,6 @@
 {
   "name": "blocks",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "Libraries for building custom storefronts with BRIKL",
   "repository": "https://github.com/Brikl/blocks",
   "author": "Phumrapee Limpianchop <contact@rayriffy.com>",

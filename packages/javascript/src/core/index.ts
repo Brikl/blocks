@@ -61,8 +61,12 @@ export class __StorefrontContext {
     salesChannelId,
     cognito,
     setupCognito = false,
+    endpoint,
   }: ContextInitialize) {
     this.shopId = shopId
+
+    if (endpoint) this.endpoint = endpoint
+
     if (salesChannelId) this.salesChannelId = salesChannelId
 
     if (cognito) this.cognito = cognito
@@ -84,9 +88,9 @@ export class __StorefrontContext {
    * @returns AWS Cognito user's token
    */
   async setupCognito() {
-    if (isServer) return 
+    if (isServer) return
 
-    let cognito = this.cognito || await getCognitoConfig(this.shopId)
+    let cognito = this.cognito || (await getCognitoConfig(this.shopId))
     const Auth = await this.importAuth()
 
     Auth.Credentials.configure(cognito)

@@ -26,6 +26,13 @@ export interface ContextInitialize {
    * If you're running on server side only, you can skip this.
    */
   setupCognito?: boolean
+  /**
+   * [Optional]
+   * @default https://api.brikl.com/v1/graphql
+   * 
+   * Change to default endpoint for graphql
+   */
+   endpoint?: string
 }
 
 export interface AWSCognitoConfiguration {

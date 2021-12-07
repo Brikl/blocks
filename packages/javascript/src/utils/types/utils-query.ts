@@ -1,7 +1,9 @@
 import type { AWSCognitoConfiguration } from '../../core'
+import { __StorefrontContext, ContextInitialize } from '../../core'
 
 export interface GatsbyShopQueryVariable {
   id: string
+  context: __StorefrontContext
 }
 
 export interface GatsbyShopQueryResult {
@@ -12,6 +14,7 @@ export interface GatsbyShopQueryResult {
 
 export interface StorefrontQuery {
   gatsbyShop: (
-    id: GatsbyShopQueryVariable['id']
+    id: GatsbyShopQueryVariable['id'],
+    context: GatsbyShopQueryVariable['context']
   ) => Promise<AWSCognitoConfiguration>
 }

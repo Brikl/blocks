@@ -93,7 +93,7 @@ export class __StorefrontContext {
   async setupCognito() {
     if (isServer) return
 
-    let cognito = this.cognito || (await getCognitoConfig(this.shopId))
+    let cognito = this.cognito || (await getCognitoConfig(this.shopId, this))
     const Auth = await this.importAuth()
 
     Auth.Credentials.configure(cognito)
@@ -222,7 +222,6 @@ export const gql = async <
     storefrontConfig?.endpoint || endpoint,
     {
       method: 'POST',
-      ...storefrontConfig?.headers,
       headers,
       body: JSON.stringify({
         query: config?.skipSalesChannelId

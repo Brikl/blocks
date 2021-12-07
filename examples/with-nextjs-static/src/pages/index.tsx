@@ -40,7 +40,6 @@ const Page: FunctionComponent<Props> = ({ products = [] }) => {
       after: string
     }
   >(GET_PRODUCTS, {
-    endpoint: 'https://dev.api.brikl.com/v1/graphql',
     variables: {
       first: 20,
       after: products[19]?.cursor || '',

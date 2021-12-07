@@ -1,3 +1,5 @@
+import { StorefrontConfig } from '../utils'
+
 export interface ContextInitialize {
   /**
    * Your shop id
@@ -20,19 +22,20 @@ export interface ContextInitialize {
   /**
    * [Optional]
    * @default false
-   * 
+   *
    * Setup AWS Cognito service for using with client account function, eg. `addToCart`
-   * 
+   *
    * If you're running on server side only, you can skip this.
    */
   setupCognito?: boolean
   /**
    * [Optional]
    * @default https://api.brikl.com/v1/graphql
-   * 
+   *
    * Change to default endpoint for graphql
    */
    endpoint?: string
+   config?: StorefrontConfig
 }
 
 export interface AWSCognitoConfiguration {

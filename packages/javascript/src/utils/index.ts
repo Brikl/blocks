@@ -4,6 +4,7 @@ import type {
   StorefrontQuery,
   GatsbyShopQueryResult,
   GatsbyShopQueryVariable,
+  StorefrontConfig
 } from './types'
 
 export const appendSalesChannelToQuery = (query: string) => {
@@ -54,7 +55,7 @@ export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async id => {
   }
 }`,
     {
-      endpoint: 'https://api.mybrikl.com/graphql',
+      // endpoint: 'https://api.mybrikl.com/graphql',
       variables: {
         id,
       },
@@ -98,4 +99,5 @@ export type {
   GatsbyShopQueryResult,
   GatsbyShopQueryVariable,
   StorefrontQuery,
+  StorefrontConfig
 } from './types'

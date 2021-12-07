@@ -2,7 +2,7 @@ import fetch from 'isomorphic-unfetch'
 import { nanoid } from 'nanoid'
 
 import { appendSalesChannelToQuery, getCognitoConfig } from '../utils'
-import type { QueryOption, QueryResult } from '../utils'
+import type { QueryOption, QueryResult, StorefrontConfig } from '../utils'
 
 import type { ContextInitialize, AWSCognitoConfiguration } from './types'
 
@@ -36,6 +36,7 @@ export class __StorefrontContext {
   private cognito: AWSCognitoConfiguration | null = null
   private guestId = nanoid(8)
   private Auth: typeof Auth | null = null
+  private config: StorefrontConfig = {}
 
   endpoint: string = 'https://api.brikl.com/v1/graphql'
 
@@ -62,6 +63,7 @@ export class __StorefrontContext {
     cognito,
     setupCognito = false,
     endpoint,
+    config,
   }: ContextInitialize) {
     this.shopId = shopId
 
@@ -70,6 +72,7 @@ export class __StorefrontContext {
     if (salesChannelId) this.salesChannelId = salesChannelId
 
     if (cognito) this.cognito = cognito
+    if (config) this.config = config
     else if (setupCognito) await this.setupCognito()
   }
 
@@ -133,6 +136,7 @@ export class __StorefrontContext {
       endpoint: this.endpoint,
       salesChannelId: this.salesChannelId,
       guestId: this.guestId,
+      config: this.config,
     }
   }
 }
@@ -199,11 +203,11 @@ export const gql = async <
   storefront = Storefront
 ): Promise<QueryResult<Result, Name>> => {
   const {
-    context: { shopId, endpoint, salesChannelId, guestId },
+    context: { shopId, endpoint, salesChannelId, guestId, config: storefrontConfig },
   } = storefront
 
   let headers: Record<string, any> = {
-    ...((config?.headers?.headers || {}) as Object),
+    ...((storefrontConfig?.headers || {}) as Object),
     'content-type': 'application/json',
     'x-brikl-shop-id': shopId,
     authorization: `${shopId}-GUESTORG-${guestId}`,
@@ -215,10 +219,10 @@ export const gql = async <
   }
 
   const result: Promise<QueryResult<Result, Name>> = await fetch(
-    config?.endpoint || endpoint,
+    storefrontConfig?.endpoint || endpoint,
     {
       method: 'POST',
-      ...config?.headers,
+      ...storefrontConfig?.headers,
       headers,
       body: JSON.stringify({
         query: config?.skipSalesChannelId

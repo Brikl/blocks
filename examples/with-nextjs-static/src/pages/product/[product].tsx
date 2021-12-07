@@ -137,7 +137,6 @@ export const useProduct = (): ProductProps => {
   const { data, errors, isLoading } = useQuery<'salesChannelProduct', DetailedProduct>(
     GET_DETAILED_PRODUCT,
     {
-      endpoint: 'https://dev.api.brikl.com/v1/graphql',
       skip: !id,
       variables: {
         id,
@@ -150,7 +149,6 @@ export const useProduct = (): ProductProps => {
     errors: moreProductsError,
     isLoading: moreProductIsLoading,
   } = useQuery<'salesChannelProducts', Edges<Product>>(GET_PRODUCTS, {
-    endpoint: 'https://dev.api.brikl.com/v1/graphql',
     variables: {
       first: 12,
     },

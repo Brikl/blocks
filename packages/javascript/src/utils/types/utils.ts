@@ -4,6 +4,11 @@ export type HeaderField = Record<string, string | number | boolean>
  */
 export type Header = Omit<RequestInit, 'body'> | Record<string, unknown>
 
+export interface StorefrontConfig {
+  headers?: Header
+  endpoint?: string
+}
+
 /**
  * Graphql config
  */
@@ -11,7 +16,7 @@ export interface QueryOption<Variable = Object> {
   /**
    * HTTP headers to append to fetch
    */
-  headers?: Header
+  // headers?: Header
   /**
    * GraphQL variables to include
    */
@@ -19,7 +24,7 @@ export interface QueryOption<Variable = Object> {
   /**
    * Custom endpoint
    */
-  endpoint?: string
+  // endpoint?: string
   skipSalesChannelId?: boolean
   /**
    * Pause the query until ready

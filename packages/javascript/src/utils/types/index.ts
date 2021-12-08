@@ -1,5 +1,5 @@
 export type { QueryResult, Edge, Edges } from './query'
-export type { HeaderField, Header, QueryOption } from './utils'
+export type { HeaderField, Header, QueryOption, StorefrontConfig } from './utils'
 export type {
   GatsbyShopQueryResult,
   GatsbyShopQueryVariable,

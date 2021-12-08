@@ -1,9 +1,10 @@
-import { gql } from '../core'
+import { ContextInitialize, gql } from '../core'
 
 import type {
   StorefrontQuery,
   GatsbyShopQueryResult,
   GatsbyShopQueryVariable,
+  StorefrontConfig
 } from './types'
 
 export const appendSalesChannelToQuery = (query: string) => {
@@ -32,7 +33,8 @@ export const appendSalesChannelToQuery = (query: string) => {
   return newQueries
 }
 
-export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async id => {
+export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async (id, storefront) => {
+  storefront.context.config.endpoint = 'https://api.mybrikl.com/graphql'
   const {
     data: {
       // @ts-ignore
@@ -54,12 +56,12 @@ export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async id => {
   }
 }`,
     {
-      endpoint: 'https://api.mybrikl.com/graphql',
       variables: {
         id,
       },
       skipSalesChannelId: true,
-    }
+    },
+    storefront
   )
 
   return cognito
@@ -98,4 +100,5 @@ export type {
   GatsbyShopQueryResult,
   GatsbyShopQueryVariable,
   StorefrontQuery,
+  StorefrontConfig
 } from './types'

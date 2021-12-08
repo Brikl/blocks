@@ -46,7 +46,6 @@ const useQuery = <
   options: QueryOption<Variable> = {
     skip: false,
     variables: {},
-    headers: {},
     skipSalesChannelId: false,
   }
 ) => {
@@ -73,10 +72,10 @@ const useQuery = <
         queryString,
         {
           ...options,
-          headers: {
-            ...(options.headers || {}),
-            signal: controller.current.signal,
-          },
+          // headers: {
+          //   ...(options.headers || {}),
+          //   signal: controller.current.signal,
+          // },
           variables: options.variables,
         },
         storefront || Storefront

@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {VariantPicker} from "../../components/VariantPicker.tsx";
+import ImageGallery from "../../components/ImageGallery.tsx";
+
+import { fetchProductDetails } from "../../utils/fetchProductDetails";
+import {fetchAllProductList } from "../../utils/fetchAllProductList";
+
+
+export async function getStaticPaths() {
+    const res = await  fetchAllProductList();
+
+    return res.map(data => {
+        return {
+            params: {
+                productId: data.id
+            }
+        }
+    })
+}
+
+const {productId} = Astro.request.params;
+
+const productData = await fetchProductDetails(productId);
+
+---
+<BaseLayout>
+    <div class="w-4/5 mx-auto min-h-full pt-16 ">
+        <main class="flex items-center flex-col-reverse md:flex-row">
+            <div class="w-full px-2">
+                <div><ImageGallery images={productData.media.map(m => m.source)} client:visible/></div>
+            </div>
+            <div class="flex flex-col items-start w-full p-4">
+                <h1 class="text-2xl font-bold mb-2">{productData.title}</h1>
+                <h6 class="text-lg mb-2">{productData.price.amount} {productData.price.currencyCode}</h6>
+                {productData?.options && <VariantPicker options={productData.options} client:visible/>}
+                <p >{productData.description}</p>
+            </div>
+        </main>
+    </div>
+    <!-- <Embed client:visible/> -->
+</BaseLayout>

@@ -1,5 +1,5 @@
 export const GET_PRODUCTS = `query products($first: Int!) {
-  products(first: $first) {
+  salesChannelProducts(first: $first) {
     edges {
       cursor
       node {
@@ -19,7 +19,7 @@ export const GET_PRODUCTS = `query products($first: Int!) {
 }`
 
 export const GET_DETAILED_PRODUCT = `query GetProduct($id: ID!) {
-    product(id: $id) {
+    salesChannelProduct(id: $id) {
         title
         description
         price {

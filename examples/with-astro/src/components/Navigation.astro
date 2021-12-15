@@ -1,0 +1,20 @@
+---
+import { MobileNav } from '../components/MobileNav.tsx';
+---
+
+<div class="w-full min-h-16 flex items-center px-4 shadow-md">
+    <div class="w-3/4 justify-between mx-auto items-center py-4 hidden md:flex">
+        <h3 class="w-1/5 text-center">Design Studio</h3>
+        <h3 class="w-1/5 text-center">How It Works</h3>
+        <h1 class="w-1/5 px-4 text-center">
+            <a href="/" class="block ">
+                <img src="/assets/brikl-logo.png" class="max-h-full max-w-32 w-full"/>
+            </a>
+        </h1>
+        <h3 class="w-1/5 text-center">Contact</h3>
+        <h3 class="w-1/5 text-center">Size & Price</h3>
+    </div>
+    <div class="flex-1 md:hidden">
+        <MobileNav client:media="(max-width: 768px)"/>
+    </div>
+</div>

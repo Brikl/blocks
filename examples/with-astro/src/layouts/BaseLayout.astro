@@ -1,0 +1,22 @@
+---
+import { AppProvider } from "../components/AppProvider";
+import MetaTags from "./MetaTags.astro";
+import Layout from "./Layout.astro";
+
+const { title } = Astro.props;
+---
+<html lang="en">
+<head>
+    <title>{title}</title>
+    <MetaTags/>
+    <style>
+    </style>
+</head>
+<body>
+    <AppProvider>
+       <Layout>
+            <slot/>
+       </Layout>
+    </AppProvider>
+</body>
+</html>

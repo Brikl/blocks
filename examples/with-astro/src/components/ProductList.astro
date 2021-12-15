@@ -1,0 +1,17 @@
+---
+import { fetchProducts } from "../utils/fetchProducts";
+import { ProductCard } from "../components/ProductCard";
+
+const productList = await fetchProducts();
+
+---
+<div class="flex flex-wrap items-stretch">
+  {productList.map((item) => (
+      <ProductCard
+        href={`/products/${item.id}`}
+        image={item.media[0].source}
+        title={item.title}
+        price={`${item.price.amount} ${item.price.currencyCode}`}
+      />
+  ))}
+</div>

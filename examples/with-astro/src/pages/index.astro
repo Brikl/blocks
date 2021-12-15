@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProductList from "../components/ProductList.astro";
+
+import {MiniStudio} from "../components/MiniStudio.tsx";
+import { Heading } from "../components/Heading";
+
+---
+<BaseLayout>
+    <main>
+        <Heading/>
+        <div class="relative">
+            <div class="absolute top-0 left-0 w-full h-full opacity-0.5">
+                <MiniStudio client:visible/>
+            </div>
+            <div class="w-4/5 mx-auto min-h-full pt-4 relative z-2">
+                <h3 class="mb-4 font-bold text-2xl">Products</h3>
+                <ProductList client:visible/>
+            </div>
+        </div>
+    </main>
+</BaseLayout>

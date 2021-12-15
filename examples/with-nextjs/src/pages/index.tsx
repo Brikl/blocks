@@ -18,7 +18,7 @@ interface Props {
 
 const Page: FunctionComponent<Props> = ({ products = [] }) => {
   const { data = null } = useQuery<
-    'products',
+    'salesChannelProducts',
     Edges<Product>,
     {
       first: number
@@ -59,11 +59,14 @@ const Page: FunctionComponent<Props> = ({ products = [] }) => {
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const { data, errors } = await gql<'products', Edges<Product>>(GET_PRODUCTS, {
-    variables: {
-      first: 40,
-    },
-  })
+  const { data, errors } = await gql<'salesChannelProducts', Edges<Product>>(
+    GET_PRODUCTS,
+    {
+      variables: {
+        first: 40,
+      },
+    }
+  )
 
   if (errors)
     return {

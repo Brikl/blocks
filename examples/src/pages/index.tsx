@@ -3,7 +3,6 @@ import type { FunctionComponent } from 'react'
 import Head from 'next/head'
 
 import { useQuery } from '@brikl/blocks-react'
-import {} from '@brikl/blocks/generated'
 
 import { Card, LoadingIndicator } from '../components'
 import { GET_PRODUCTS } from '../services'

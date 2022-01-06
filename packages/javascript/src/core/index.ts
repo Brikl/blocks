@@ -5,6 +5,7 @@ import { appendSalesChannelToQuery, getCognitoConfig } from '../utils'
 import type { QueryOption, StorefrontConfig, QueryResult } from '../utils'
 
 import type { ContextInitialize, AWSCognitoConfiguration } from './types'
+import { DocumentNode, print as printGraphQL } from 'graphql'
 
 import type { Auth } from 'aws-amplify'
 
@@ -194,10 +195,12 @@ export const Storefront = new __StorefrontContext()
  * @returns Result
  */
 export const gql = async <Result extends unknown = unknown, Variable = Object>(
-  queryString: string,
+  query: string | DocumentNode,
   config?: QueryOption<Variable>,
   storefront = Storefront
 ): Promise<QueryResult<Result>> => {
+  let queryString = typeof query === 'string' ? query : printGraphQL(query)
+
   const {
     context: {
       shopId,

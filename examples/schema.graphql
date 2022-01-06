@@ -1,0 +1,24 @@
+query Products($salesChannelId: ID!) {
+  products(
+    salesChannelId: $salesChannelId,
+    first: 5,
+  ) {
+    edges {
+      node {
+        title
+        createdAt
+        price {
+          basePrice {
+            amount
+            currencyCode
+          }
+          salesPrice {
+            currencyCode
+            amount
+          }
+        }
+        
+      }
+    }
+  }
+}

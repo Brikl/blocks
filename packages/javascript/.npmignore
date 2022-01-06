@@ -6,3 +6,4 @@ tsconfig.es6.json
 tsconfig.es6.tsbuildinfo
 tsconfig.tsbuildinfo
 yarn-error.log
+src/generated.ts

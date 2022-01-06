@@ -1,12 +1,11 @@
 import type { FunctionComponent } from 'react'
 
 import Head from 'next/head'
-import type { GetServerSideProps } from 'next'
 
-import { gql } from '@brikl/blocks'
 import { useQuery } from '@brikl/blocks-react'
+import {} from '@brikl/blocks/generated'
 
-import { Card } from '../components'
+import { Card, LoadingIndicator } from '../components'
 import { GET_PRODUCTS } from '../services'
 import type { Product } from '../models'
 
@@ -16,9 +15,20 @@ interface Props {
   products: Edge<Product>[]
 }
 
+const Layout = ({ children }) => (
+  <>
+    <Head>
+      <title>BRIKL Shop</title>
+    </Head>
+    <header className="flex justify-center items-center my-16 px-4 py-16">
+      <h1 className="text-3xl sm:text-4xl">BRIKL Custom Shop</h1>
+    </header>
+    {children}
+  </>
+)
+
 const Page: FunctionComponent<Props> = ({ products = [] }) => {
-  const { data = null } = useQuery<
-    'products',
+  const { data = null, isLoading, errors, refetch } = useQuery<
     Edges<Product>,
     {
       first: number
@@ -31,14 +41,28 @@ const Page: FunctionComponent<Props> = ({ products = [] }) => {
     },
   })
 
+  if (isLoading)
+    return (
+      <Layout>
+        <LoadingIndicator />
+      </Layout>
+    )
+
+  if (errors)
+    return (
+      <main className="flex flex-col justify-center items-center w-full h-[80vh]">
+        <h1 className="text-2xl mb-6">Something went wrong</h1>
+        <button
+          className="text-xl font-medium px-9 py-3 bg-gray-200 rounded"
+          onClick={refetch}
+        >
+          Reload
+        </button>
+      </main>
+    )
+
   return (
-    <>
-      <Head>
-        <title>BRIKL Shop</title>
-      </Head>
-      <header className="flex justify-center items-center my-16 px-4 py-16">
-        <h1 className="text-3xl sm:text-4xl">BRIKL Custom Shop</h1>
-      </header>
+    <Layout>
       <main
         className="grid gap-x-6 gap-y-12 w-full max-w-[1280px] mx-auto p-4"
         style={{
@@ -49,40 +73,13 @@ const Page: FunctionComponent<Props> = ({ products = [] }) => {
           <Card key={node.id} {...node} />
         ))}
         {data !== null
-          ? data.products.edges.map(({ node }) => (
+          ? data.salesChannelProducts?.edges.map(({ node }) => (
               <Card key={node.id} {...node} />
             ))
           : null}
       </main>
-    </>
+    </Layout>
   )
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
-  const { data, errors } = await gql<'products', Edges<Product>>(GET_PRODUCTS, {
-    variables: {
-      first: 40,
-    },
-  })
-
-  if (errors)
-    return {
-      props: {
-        products: [],
-      },
-    }
-
-  const {
-    products: { edges: products },
-  } = data
-
-  data.products
-
-  return {
-    props: {
-      products,
-    },
-  }
 }
 
 export default Page

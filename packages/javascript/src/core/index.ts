@@ -2,7 +2,7 @@ import fetch from 'isomorphic-unfetch'
 import { nanoid } from 'nanoid'
 
 import { appendSalesChannelToQuery, getCognitoConfig } from '../utils'
-import type { QueryOption, QueryResult, StorefrontConfig } from '../utils'
+import type { QueryOption, StorefrontConfig, QueryResult } from '../utils'
 
 import type { ContextInitialize, AWSCognitoConfiguration } from './types'
 
@@ -193,17 +193,19 @@ export const Storefront = new __StorefrontContext()
  * @param storefront - Specified custom Storefront. (You don't usually need this)
  * @returns Result
  */
-export const gql = async <
-  Name extends string,
-  Result extends unknown = unknown,
-  Variable = Object
->(
+export const gql = async <Result extends unknown = unknown, Variable = Object>(
   queryString: string,
   config?: QueryOption<Variable>,
   storefront = Storefront
-): Promise<QueryResult<Result, Name>> => {
+): Promise<QueryResult<Result>> => {
   const {
-    context: { shopId, endpoint, salesChannelId, guestId, config: storefrontConfig },
+    context: {
+      shopId,
+      endpoint,
+      salesChannelId,
+      guestId,
+      config: storefrontConfig,
+    },
   } = storefront
 
   let headers: Record<string, any> = {
@@ -218,7 +220,7 @@ export const gql = async <
     //   : await storefront.reloadToken(),
   }
 
-  const result: Promise<QueryResult<Result, Name>> = await fetch(
+  const result: Promise<QueryResult<Result>> = await fetch(
     storefrontConfig?.endpoint || endpoint,
     {
       method: 'POST',

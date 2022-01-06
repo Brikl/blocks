@@ -8,10 +8,8 @@
     "lib": ["ESNext", "DOM.Iterable", "DOM"],
     "sourceMap": true,
     "composite": true,
-    "outDir": "dist",
-    "rootDir": "src",
+    "outFile": "./scripts/index.js",
+    "rootDir": "./scripts",
     "esModuleInterop": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "**/node_modules/*", "scripts", "dist"]
+  }
 }

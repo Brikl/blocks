@@ -1,10 +1,9 @@
-import { ContextInitialize, gql } from '../core'
+import { gql } from '../core'
 
 import type {
   StorefrontQuery,
   GatsbyShopQueryResult,
-  GatsbyShopQueryVariable,
-  StorefrontConfig
+  GatsbyShopQueryVariable
 } from './types'
 
 export const appendSalesChannelToQuery = (query: string) => {
@@ -42,7 +41,7 @@ export const getCognitoConfig: StorefrontQuery['gatsbyShop'] = async (id, storef
         awsConfiguration: { cognito },
       },
     },
-  } = await gql<'shop', GatsbyShopQueryResult, GatsbyShopQueryVariable>(
+  } = await gql<GatsbyShopQueryResult, GatsbyShopQueryVariable>(
     `query gatsbyShop($id: ID!) {
   shop(id: $id) {
     awsConfiguration {

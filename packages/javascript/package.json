@@ -25,14 +25,29 @@
   ],
   "scripts": {
     "build": "tsc --build . && tsc --project tsconfig.es6.json",
-    "dev": "tsc --watch ."
+    "dev": "tsc --watch .",
+    "codegen": "node scripts/index.js"
+  },
+  "bin": {
+    "blocks": "scripts/index.js"
   },
   "dependencies": {
     "aws-amplify": ">= 4.0.0",
+    "graphql": "^16.2.0",
     "isomorphic-unfetch": "^3.1.0",
     "nanoid": "^3.1.28"
   },
   "devDependencies": {
-    "@types/node": "^16.10.1"
+    "@graphql-codegen/cli": "^2.3.1",
+    "@types/node": "^16.10.1",
+    "typescript": "^4.5.4"
+  },
+  "peerDependencies": {
+    "@graphql-codegen/cli": ">= 2.0.0",
+    "@graphql-codegen/typed-document-node": ">= 2.0.0",
+    "@graphql-codegen/typescript": ">= 2.0.0",
+    "@graphql-codegen/typescript-operations": ">= 2.0.0",
+    "@graphql-typed-document-node/core": ">= 2.0.0",
+    "graphql": ">= 16.0.0"
   }
 }

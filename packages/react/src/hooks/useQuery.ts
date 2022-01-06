@@ -38,7 +38,6 @@ const isServer = typeof window === 'undefined'
  * @returns Result
  */
 const useQuery = <
-  Name extends string = string,
   Type = unknown,
   Variable = Object
 >(
@@ -49,7 +48,7 @@ const useQuery = <
     skipSalesChannelId: false,
   }
 ) => {
-  let [data, updateData] = useState<QueryResult<Type, Name> | null>(null)
+  let [data, updateData] = useState<QueryResult<Type> | null>(null)
   let [errors, updateErrors] = useState<unknown[] | null>(null)
   let [isLoading, updateLoading] = useState(false)
 
@@ -68,7 +67,7 @@ const useQuery = <
     controller.current = new AbortController()
 
     try {
-      await gql<Name, Type>(
+      await gql<Type>(
         queryString,
         {
           ...options,

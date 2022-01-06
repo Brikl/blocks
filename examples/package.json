@@ -5,10 +5,14 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "export": "next export",
+    "start": "next start",
+    "codegen": "blocks codegen"
   },
   "dependencies": {
+    "@brikl/blocks": "../packages/javascript",
     "autoprefixer": "^10.3.6",
+    "graphql": "^16.2.0",
     "next": "^11.1.2",
     "nextjs-progressbar": "^0.0.11",
     "postcss": "^8.3.8",
@@ -20,6 +24,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
+    "@graphql-codegen/cli": "^2.3.1",
+    "@graphql-codegen/typed-document-node": "^2.2.2",
+    "@graphql-codegen/typescript": "^2.4.2",
+    "@graphql-codegen/typescript-operations": "^2.2.2",
+    "@graphql-typed-document-node/core": "^3.1.1",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
     "prop-types": "^15.7.2",

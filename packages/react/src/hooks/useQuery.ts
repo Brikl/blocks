@@ -3,6 +3,8 @@ import { useCallback, useEffect, useMemo, useState, useRef } from 'react'
 import Storefront, { gql } from '@brikl/blocks'
 import type { QueryOption, QueryResult } from '@brikl/blocks'
 
+import type { DocumentNode } from 'graphql'
+
 import { useStorefront } from '../core'
 
 const isServer = typeof window === 'undefined'
@@ -41,7 +43,7 @@ const useQuery = <
   Type = unknown,
   Variable = Object
 >(
-  queryString: string,
+  queryString: string | DocumentNode,
   options: QueryOption<Variable> = {
     skip: false,
     variables: {},

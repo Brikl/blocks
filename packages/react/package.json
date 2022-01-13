@@ -1,6 +1,6 @@
 {
   "name": "@brikl/blocks-react",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "JavaScript API for creating custom BRIKL storefront",
   "contributors": [
     {

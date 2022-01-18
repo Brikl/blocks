@@ -1,5 +1,5 @@
-export interface QueryResult<T extends unknown, Name extends string = string> {
-  data?: Record<Name, T>
+export interface QueryResult<T extends unknown> {
+  data?: T
   errors?: Error[]
 }
 

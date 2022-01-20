@@ -114,7 +114,7 @@ const useMutation = <Type = unknown, Variable = Object>(
       errors: errors?.concat(data?.errors),
       abort,
     },
-  ]
+  ] as const
 }
 
 export default useMutation

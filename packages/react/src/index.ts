@@ -1,7 +1,3 @@
-export {
-  StorefrontConsumer,
-  StorefrontProvider,
-  useStorefront,
-} from './core'
+export { StorefrontConsumer, StorefrontProvider, useStorefront } from './core'
 
-export { useQuery } from './hooks'
+export { useQuery, useMutation } from './hooks'

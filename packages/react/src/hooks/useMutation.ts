@@ -39,13 +39,9 @@ const isServer = typeof window === 'undefined'
  * @param config - Graphql config
  * @returns Result
  */
-const useQuery = <
-  Type = unknown,
-  Variable = Object
->(
+const useMutation = <Type = unknown, Variable = Object>(
   queryString: string | DocumentNode,
   options: QueryOption<Variable> = {
-    skip: false,
     variables: {},
     skipSalesChannelId: false,
   }
@@ -59,10 +55,8 @@ const useQuery = <
   let storefront = useStorefront()
 
   useEffect(() => {
-    refetch()
-
     return abort
-  }, [JSON.stringify(options.variables), options.skip])
+  }, [JSON.stringify(options.variables)])
 
   let fetchData = useCallback(async () => {
     updateLoading(true)
@@ -100,26 +94,27 @@ const useQuery = <
     }
   }, [queryString, options, storefront])
 
-  let refetch = useCallback(() => {
+  let execute = useCallback(() => {
     if (isServer) return
 
     if (controller.current) abort()
 
-    if (options.skip) updateLoading(false)
-    else fetchData()
+    fetchData()
   }, [JSON.stringify(options.variables), options.skip])
 
   let abort = useCallback(() => {
     controller.current?.abort()
   }, [])
 
-  return {
-    data: data?.data,
-    isLoading,
-    errors: errors?.concat(data?.errors),
-    refetch,
-    abort,
-  }
+  return [
+    execute,
+    {
+      data: data?.data,
+      isLoading,
+      errors: errors?.concat(data?.errors),
+      abort,
+    },
+  ]
 }
 
-export default useQuery
+export default useMutation

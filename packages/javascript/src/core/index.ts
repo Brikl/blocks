@@ -197,7 +197,6 @@ export const Storefront = new __StorefrontContext()
 export const gql = async <Result extends unknown = unknown, Variable = Object>(
   query: string | DocumentNode,
   config?: QueryOption<Variable>,
-  storefront = Storefront
 ): Promise<QueryResult<Result>> => {
   let queryString = typeof query === 'string' ? query : printGraphQL(query)
 
@@ -209,13 +208,13 @@ export const gql = async <Result extends unknown = unknown, Variable = Object>(
       guestId,
       config: storefrontConfig,
     },
-  } = storefront
+  } = config?.storefront || Storefront
 
   let headers: Record<string, any> = {
-    ...((storefrontConfig?.headers || {}) as Object),
     'content-type': 'application/json',
     'x-brikl-shop-id': shopId,
     authorization: `${shopId}-GUESTORG-${guestId}`,
+    ...((storefrontConfig?.headers || {}) as Object),
     // authorization: isServer
     //   ? `${shopId}-GUESTORG-${guestId}`
     //   : token

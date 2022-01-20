@@ -1,3 +1,5 @@
+import { __StorefrontContext } from '../../core'
+
 export type HeaderField = Record<string, string | number | boolean>
 /**
  * Valid fetch header field
@@ -30,4 +32,8 @@ export interface QueryOption<Variable = Object> {
    * Pause the query until ready
    */
   skip?: boolean
+  /**
+   * Use custom storefront parameter
+   */
+  storefront?: __StorefrontContext | null
 }

@@ -44,6 +44,7 @@ const useMutation = <Type = unknown, Variable = Object>(
   options: QueryOption<Variable> = {
     variables: {},
     skipSalesChannelId: false,
+    storefront: null,
   }
 ) => {
   let [data, updateData] = useState<QueryResult<Type> | null>(null)
@@ -52,7 +53,8 @@ const useMutation = <Type = unknown, Variable = Object>(
 
   let controller = useRef<AbortController | null>(null)
 
-  let storefront = useStorefront()
+  let ordinal = useStorefront()
+  let storefront = options.storefront || ordinal
 
   useEffect(() => {
     return abort
@@ -63,18 +65,15 @@ const useMutation = <Type = unknown, Variable = Object>(
     controller.current = new AbortController()
 
     try {
-      await gql<Type>(
-        queryString,
-        {
-          ...options,
-          // headers: {
-          //   ...(options.headers || {}),
-          //   signal: controller.current.signal,
-          // },
-          variables: options.variables,
-        },
-        storefront || Storefront
-      )
+      await gql<Type>(queryString, {
+        ...options,
+        // headers: {
+        //   ...(options.headers || {}),
+        //   signal: controller.current.signal,
+        // },
+        variables: options.variables,
+        storefront: storefront || Storefront,
+      })
         .then(data => {
           updateErrors(null)
           updateData(data)

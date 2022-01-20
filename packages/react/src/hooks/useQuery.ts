@@ -39,15 +39,13 @@ const isServer = typeof window === 'undefined'
  * @param config - Graphql config
  * @returns Result
  */
-const useQuery = <
-  Type = unknown,
-  Variable = Object
->(
+const useQuery = <Type = unknown, Variable = Object>(
   queryString: string | DocumentNode,
   options: QueryOption<Variable> = {
     skip: false,
     variables: {},
     skipSalesChannelId: false,
+    storefront: null,
   }
 ) => {
   let [data, updateData] = useState<QueryResult<Type> | null>(null)
@@ -56,7 +54,8 @@ const useQuery = <
 
   let controller = useRef<AbortController | null>(null)
 
-  let storefront = useStorefront()
+  let ordinal = useStorefront()
+  let storefront = options.storefront || ordinal
 
   useEffect(() => {
     refetch()
@@ -69,18 +68,15 @@ const useQuery = <
     controller.current = new AbortController()
 
     try {
-      await gql<Type>(
-        queryString,
-        {
-          ...options,
-          // headers: {
-          //   ...(options.headers || {}),
-          //   signal: controller.current.signal,
-          // },
-          variables: options.variables,
-        },
-        storefront || Storefront
-      )
+      await gql<Type>(queryString, {
+        ...options,
+        // headers: {
+        //   ...(options.headers || {}),
+        //   signal: controller.current.signal,
+        // },
+        variables: options.variables,
+        storefront: storefront || Storefront,
+      })
         .then(data => {
           updateErrors(null)
           updateData(data)
